@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# git clone https://git.postgresql.org/git/postgresql.git
-# cd postgresql
-# ./configure --prefix=$1/postgresql
-# make
-# make install
+git clone https://git.postgresql.org/git/postgresql.git
+cd postgresql
+./configure --prefix=$1/postgresql
+make
+make install
 
-# cd ..
+cd ..
 
 curl -o httpd-2.4.25.tar.gz http://mirrors.koehn.com/apache//httpd/httpd-2.4.25.tar.gz
 tar -xvzf httpd-2.4.25.tar.gz
