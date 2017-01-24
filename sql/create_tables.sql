@@ -74,7 +74,7 @@ user_fk integer REFERENCES users(user_pk) not null,
 facility_fk integer REFERENCES facilities(facility_pk) not null
 );
 
-CREATE TABLE level (
+CREATE TABLE levels (
 level_pk serial primary key,
 abbrv varchar(255),
 comment varchar(255)
