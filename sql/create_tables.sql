@@ -88,7 +88,7 @@ comment varchar(255)
 
 CREATE TABLE security_tags (
 tag_pk serial primary key,
-level_fk integer REFERENCES level(level_pk) not null,
+level_fk integer REFERENCES levels(level_pk) not null,
 compartment_fk integer REFERENCES compartments(compartment_pk) not null,
 user_fk integer REFERENCES users(user_pk),
 product_fk integer REFERENCES products(product_pk),
