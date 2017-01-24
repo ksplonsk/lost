@@ -85,15 +85,6 @@ with open('osnap_legacy/acquisitions.csv') as csvfile:
             cur.execute("INSERT INTO products (description) SELECT (%s) WHERE NOT EXISTS (SELECT 1 FROM products WHERE (description = %s AND vendor IS NULL))", (row[0],row[0]))
             cur.execute("INSERT INTO assets (product_fk, asset_tag) VALUES ((SELECT product_pk FROM products WHERE (description = %s AND vendor IS NULL) LIMIT 1),%s)", (row[0],row[5]))
 
-# with open('osnap_legacy/convoy.csv') as csvfile:
-#     rows = csv.reader(csvfile)
-#     first = True
-#     for row in rows:
-#     	if first:
-#     		first = False
-#     	else:
-#         	cur.execute("INSERT INTO convoys (request, depart_dt, arrive_dt) VALUES (%s, to_timestamp(%s, 'mm/dd/yy hh24:mi'), to_timestamp(%s, 'mm/dd/yy hh24:mi'))", (row[0], row[1], row[6]))
-
 with open('osnap_legacy/security_compartments.csv') as csvfile:
     rows = csv.reader(csvfile)
     first = True
