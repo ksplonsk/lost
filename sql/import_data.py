@@ -59,7 +59,7 @@ with open('osnap_legacy/convoy.csv') as csvfile:
     	if first:
     		first = False
     	else:
-        	cur.execute("INSERT INTO convoys (request, depart_dt, arrive_dt) VALUES (%s, to_timestamp(%s), to_timestamp(%s))", (row[0], row[1], row[6]))
+        	cur.execute("INSERT INTO convoys (request, depart_dt, arrive_dt) VALUES (%s, to_timestamp(%s, 'mm/dd/yy hh24:mm'), to_timestamp(%s, 'mm/dd/yy hh24:mm'))", (row[0], row[1], row[6]))
 
 # with open('osnap_legacy/security_compartments.csv') as csvfile:
 #     rows = csv.reader(csvfile)
