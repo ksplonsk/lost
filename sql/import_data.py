@@ -72,7 +72,8 @@ with open('osnap_legacy/transit.csv') as csvfile:
     		first = False
     	else:
         	cur.execute("INSERT INTO facilities (common_name) SELECT (%s) WHERE NOT EXISTS (SELECT 1 FROM facilities WHERE common_name = %s)", (row[1],row[1]))
-        	cur.execute("INSERT INTO facilities (common_name) SELECT (%s) WHERE NOT EXISTS (SELECT 1 FROM facilities WHERE common_name = %s)", (row[2],row[2]))
+            cur.execute("INSERT INTO facilities (common_name) SELECT (%s) WHERE NOT EXISTS (SELECT 1 FROM facilities WHERE common_name = %s)", (row[2],row[2]))
+            cur.execute("INSERT INTO convoys (request, depart_dt, arrive_dt, source_fk, dest_fk) VALUES (%s, to_timestamp(%s, 'mm/dd/yy'), to_timestamp(%s, 'mm/dd/yy'), (SELECT 1 FROM facilities WHERE (common_name = %s)), (SELECT 1 FROM facilities WHERE (common_name = %s)))", (row[5],row[3],row[4],row[1],row[2]))
 
 with open('osnap_legacy/acquisitions.csv') as csvfile:
     rows = csv.reader(csvfile)
