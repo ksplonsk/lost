@@ -2,9 +2,9 @@
 	<body><h2>Facility Inventory Report</h2>Please select one of the following options<br><br>
 
 		<a href="{{url_for('report_menu')}}">Report Menu</a>
-		<br>
+		<br><br>
 		<form action="{{url_for('logout')}}">
-			<button type="button" onclick="{{url_for('logout')}}">Logout</button>
+			<button type="button" formaction="{{url_for('logout')}}">Logout</button>
 		</form>
 	</body>
 </html>
