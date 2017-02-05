@@ -1,4 +1,10 @@
 from flask import Flask, render_template, request
+from config import dbname, dbhost, dbport
+import sys
+import psycopg2
+
+conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+cur = conn.cursor()
 
 app = Flask(__name__)
 
@@ -25,7 +31,7 @@ def report_menu():
 
 @app.route('/facility_inventory_report')
 def facility_inventory_report():
-	return render_template('facility_inventory_report.html')
+	return render_template('facility_inventory_report.html',name=request.args.get('buyername'))
 
 @app.route('/in_transit_report')
 def in_transit_report():

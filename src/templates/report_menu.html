@@ -1,10 +1,68 @@
 <html>
-	<body><h2>Report Menu</h2>Please select one of the following options:<br><br>
+	<body><h2>Report Menu</h2><br>
 
-		<a href="{{url_for('facility_inventory_report')}}">Facility Inventory Report</a>
-		<br>
-		<a href="{{url_for('in_transit_report')}}">In Transit Report</a><br><br>
-		<a href="{{url_for('logout')}}">Logout</a>
+		<h3>Facility Inventory Report</h3>
+		<form action="{{url_for('facility_inventory_report')}}">
+			<br>
+			My name<br>
+			<input type="text" name="buyername">
+			<br><br>
+			Car type<br>
+			<select>
+			  <option value="volvo">Volvo</option>
+			  <option value="saab">Saab</option>
+			  <option value="mercedes">Mercedes</option>
+			  <option value="audi">Audi</option>
+			</select>
+			<br><br>
+			Color<br>
+			  <input type="radio" name="color" id="red" value="red">
+			  <label for="red">Red</label><br>
+			  <input type="radio" name="color" id="green" value="green">
+			  <label for="green">Green</label><br>
+			  <input type="radio" name="color" id="blue" value="blue">
+			  <label for="blue">Blue</label>
+			<br><br>
+			Options<br>
+			<input type="checkbox" name="option1" value="floormats"> Floor mats<br>
+			<input type="checkbox" name="option2" value="heatedseats"> Heated seats<br>
+			<br><br>
+			<input type="submit" name="submit" value="Inventory Report"/>
+		</form>
+
+		<br><br>
+		<hr>
+		<br><br>
+
+		<h3>In Transit Report</h3>
+		<form action="{{url_for('in_transit_report')}}">
+			<br>
+			My name<br>
+			<input type="text" name="buyername">
+			<br><br>
+			Car type<br>
+			<select>
+			  <option value="volvo">Volvo</option>
+			  <option value="saab">Saab</option>
+			  <option value="mercedes">Mercedes</option>
+			  <option value="audi">Audi</option>
+			</select>
+			<br><br>
+			Color<br>
+			  <input type="radio" name="color" id="red" value="red">
+			  <label for="red">Red</label><br>
+			  <input type="radio" name="color" id="green" value="green">
+			  <label for="green">Green</label><br>
+			  <input type="radio" name="color" id="blue" value="blue">
+			  <label for="blue">Blue</label>
+			<br><br>
+			Options<br>
+			<input type="checkbox" name="option1" value="floormats"> Floor mats<br>
+			<input type="checkbox" name="option2" value="heatedseats"> Heated seats<br>
+			<br><br>
+			<input type="submit" name="submit" value="Transit Report"/>
+		</form>
+
 
 	</body>
 </html>
