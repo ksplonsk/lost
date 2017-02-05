@@ -27,7 +27,12 @@ def login():
 
 @app.route('/report_menu')
 def report_menu():
-	return render_template('report_menu.html')
+	cur.execute("SELECT * FROM assets")
+	records = cur.fetchall()
+	processed_data = []
+	for r in res:
+		processed_data.append( dict(zip(('asset_tag', 'description'), r)))
+	return render_template('report_menu.html', processed_data=processed_data)
 
 @app.route('/facility_inventory_report')
 def facility_inventory_report():
@@ -40,9 +45,3 @@ def in_transit_report():
 @app.route('/logout')
 def logout():
 	return render_template('logout.html')
-
-
-	# request.form is only populated for POST messages
-	if request.method=='POST' and 'mytext' in request.form:
-		return render_template('goodbye.html',data=request.form['mytext'])
-	return render_template('index.html')
