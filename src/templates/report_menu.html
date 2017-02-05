@@ -4,28 +4,20 @@
 		<h3>Facility Inventory Report</h3>
 		<form action="{{url_for('facility_inventory_report')}}">
 			<br>
-			My name<br>
-			<input type="text" name="buyername">
-			<br><br>
-			Car type<br>
-			<select>
-			  <option value="volvo">Volvo</option>
-			  <option value="saab">Saab</option>
-			  <option value="mercedes">Mercedes</option>
-			  <option value="audi">Audi</option>
+			Facility Name<br>
+			<select name="facility">
+			  <option value="headquarters">Headquarters</option>
+			  <option value="MB005">MB 005</option>
+			  <option value="site300">Site 300</option>
+			  <option value="groomLake">Groom Lake</option>
+			  <option value="losAlamos_NM">Los Alamos, NM</option>
+			  <option value="nationalCity">National City</option>
+			  <option value="sparks_NV">Sparks, NV</option>
+			  <option value="washington_DC">Washington, D.C.</option>
 			</select>
 			<br><br>
-			Color<br>
-			  <input type="radio" name="color" id="red" value="red">
-			  <label for="red">Red</label><br>
-			  <input type="radio" name="color" id="green" value="green">
-			  <label for="green">Green</label><br>
-			  <input type="radio" name="color" id="blue" value="blue">
-			  <label for="blue">Blue</label>
-			<br><br>
-			Options<br>
-			<input type="checkbox" name="option1" value="floormats"> Floor mats<br>
-			<input type="checkbox" name="option2" value="heatedseats"> Heated seats<br>
+			Date<br>
+			<input type="date" name="report_date"><br>
 			<br><br>
 			<input type="submit" name="submit" value="Inventory Report"/>
 		</form>
@@ -37,28 +29,8 @@
 		<h3>In Transit Report</h3>
 		<form action="{{url_for('in_transit_report')}}">
 			<br>
-			My name<br>
-			<input type="text" name="buyername">
-			<br><br>
-			Car type<br>
-			<select>
-			  <option value="volvo">Volvo</option>
-			  <option value="saab">Saab</option>
-			  <option value="mercedes">Mercedes</option>
-			  <option value="audi">Audi</option>
-			</select>
-			<br><br>
-			Color<br>
-			  <input type="radio" name="color" id="red" value="red">
-			  <label for="red">Red</label><br>
-			  <input type="radio" name="color" id="green" value="green">
-			  <label for="green">Green</label><br>
-			  <input type="radio" name="color" id="blue" value="blue">
-			  <label for="blue">Blue</label>
-			<br><br>
-			Options<br>
-			<input type="checkbox" name="option1" value="floormats"> Floor mats<br>
-			<input type="checkbox" name="option2" value="heatedseats"> Heated seats<br>
+			Date<br>
+			<input type="date" name="report_date"><br>
 			<br><br>
 			<input type="submit" name="submit" value="Transit Report"/>
 		</form>
