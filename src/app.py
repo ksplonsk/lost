@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request
-# from config import dbname, dbhost, dbport
-# import sys
-# import psycopg2
+from config import dbname, dbhost, dbport
+import sys
+import psycopg2
 
-# conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
-# cur = conn.cursor()
+conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+cur = conn.cursor()
 
 app = Flask(__name__)
 
@@ -45,3 +45,6 @@ def in_transit_report():
 @app.route('/logout')
 def logout():
 	return render_template('logout.html')
+
+if __name__ == "__main__":
+	app.run(host='0.0.0.0',port=8080)
