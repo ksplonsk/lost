@@ -31,11 +31,11 @@ def report_menu():
 
 @app.route('/facility_inventory_report')
 def facility_inventory_report():
-	return render_template('facility_inventory_report.html',name=request.args.get('buyername'))
+	return render_template('facility_inventory_report.html',facility=request.args.get('facility'),date=request.args.get('report_date'))
 
 @app.route('/in_transit_report')
 def in_transit_report():
-	return render_template('in_transit_report.html')
+	return render_template('in_transit_report.html',date=request.args.get('report_date'))
 
 @app.route('/logout')
 def logout():
