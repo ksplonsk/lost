@@ -11,6 +11,9 @@ Redirects should be used to point the user to the correct next page after their 
 Files:
 app.py - A Flask app to be run via mod_wsgi
 templates/
-    index.html - a template for the root path
-    welcome.html - a template for the welcome page
-    goodbye.html - a template for the goodbye page
+	facility_inventory_report.html — a template for a report showing inventory at a specific facility and date based upon user specifications
+	in_transit_report.html — a template for a report showing in transit on a specific date		based upon user specifications
+	index.html — a template for the root path
+	login.html — a template for a simple login screen
+	logout.html — a template for a simple logout screen
+	report_menu.html — a template for allowing user to choose specifications based upon what report they wish to see
