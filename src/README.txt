@@ -1,15 +1,15 @@
-The files in this directory implement a very simple web application to take in and present user entered data.
+This app takes you through a flow of screens, allowing you to login, filter what report you would like to see, view what you filtered off of, and then log back out.
 
-The form on the welcome page submits to the goodbye page, which displays the data the user entered. If the expected data is missing, the goodbye page renders the index.htmltemplate instead of the goodbye template.
+I was not able to get my application to take in data and display it in a table, but I do have a very nice flow of screens, with the ability to filter reports by facility and date or just date.
 
-Note on the _bad_ design shown:
-The design currently in this directory, while it works, does not follow best practices. The URL that presents a form should also be the action target for the form. This makes the web application much easier to maintain since the page responsible for the form is also responsible for parsing the form.
-
-Redirects should be used to point the user to the correct next page after their input data has been processed; in both the success and failure cases.
+I chose to comment out the pieces of code in which I attempted to pull in the data I needed, because it only seemed to break my application. I left it commented out to show my attempt, but wanted to turn in a working application.
 
 
 Files:
-app.py - A Flask app to be run via mod_wsgi
+app.py - Flask app to be run via mod_wsgi
+config.py — config file
+lost_conifg.json — json config file
+
 templates/
 	facility_inventory_report.html — a template for a report showing inventory at a specific facility and date based upon user specifications
 	in_transit_report.html — a template for a report showing in transit on a specific date		based upon user specifications
