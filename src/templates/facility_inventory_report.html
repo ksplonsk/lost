@@ -1,9 +1,21 @@
 <html>
-	<body><h2>Facility Inventory Report</h2>Please select one of the following options<br><br>
+	<body><h2>Facility Inventory Report</h2><br><br>
 
 		Facility: {{facility}}
 		<br><br>
 		Report Date: {{date}}
+		<br><br>
+
+	<table border="3">
+			<tr>
+				<th>Facility</th>
+				<th>Asset Tag</th>
+				<th>Description</th>
+				<th>Arrival</th>
+				<th>Departure</th>
+			</tr>
+	</table>
+
 		<br><br>
 		<a href="{{url_for('report_menu')}}">Report Menu</a>
 
