@@ -52,7 +52,7 @@ def suspend_user():
 	return data
 
 
-@app.route('/rest/test')
+@app.route('/rest/test', methods=('POST',))
 def test():
 	# Try to handle as plaintext
 
