@@ -56,7 +56,7 @@ def suspend_user():
 def test():
 	# Try to handle as plaintext
 
-	print "INTEST"
+	#print "INTEST"
 
 	dat = dict()
 	dat['timestamp'] = '2017-02-11'
