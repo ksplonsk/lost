@@ -51,5 +51,17 @@ def suspend_user():
 	data = json.dumps(dat)
 	return data
 
+
+@app.route('/rest/test', methods=('POST',))
+def test():
+	# Try to handle as plaintext
+
+	dat = dict()
+	dat['timestamp'] = '2017-02-11'
+	dat['result'] = 'OK'
+	data = json.dumps(dat)
+	return data
+
+
 # if __name__ == "__main__":
 # 	app.run(host='0.0.0.0',port=8080)
