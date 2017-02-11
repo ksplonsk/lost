@@ -55,9 +55,8 @@ def suspend_user():
 @app.route('/rest/test', methods=('POST',))
 def test():
 	# Try to handle as plaintext
-
-	print "INTEST"
-
+	print "maybe?"
+	
 	dat = dict()
 	dat['timestamp'] = '2017-02-11'
 	dat['result'] = 'OK'
