@@ -38,5 +38,18 @@ def in_transit_report():
 def logout():
 	return render_template('logout.html')
 
+
+@app.route('/rest/suspend_user', methods=('POST',))
+def suspend_user():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+	dat = dict()
+	dat['timestamp'] = req['timestamp']
+	dat['result'] = 'OK'
+	data = json.dumps(dat)
+	return data
+
 # if __name__ == "__main__":
 # 	app.run(host='0.0.0.0',port=8080)
