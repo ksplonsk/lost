@@ -56,7 +56,7 @@ def suspend_user():
 def test():
 	# Try to handle as plaintext
 
-	print >> sys.stderr, 'in test function!'
+	#print >> sys.stderr, 'in test function!'
 
 	dat = dict()
 	dat['timestamp'] = '2017-02-11'
