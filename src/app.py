@@ -41,7 +41,7 @@ def logout():
 	return render_template('logout.html')
 
 
-@app.route('/rest/suspend_user', methods=('POST',))
+@app.route('/rest/suspend_user', methods=('POST',)
 def suspend_user():
 	# Try to handle as plaintext
 	if request.method=='POST' and 'arguments' in request.form:
