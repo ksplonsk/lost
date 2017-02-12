@@ -1,10 +1,9 @@
+import sys
+import json
 from flask import Flask, render_template, request
 # from config import dbname, dbhost, dbport
 # import sys
 # import psycopg2
-import sys
-import json
-
 
 # conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 # cur = conn.cursor()
