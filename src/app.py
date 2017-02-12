@@ -2,6 +2,9 @@ from flask import Flask, render_template, request
 # from config import dbname, dbhost, dbport
 # import sys
 # import psycopg2
+import sys
+import json
+
 
 # conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 # cur = conn.cursor()
@@ -56,7 +59,7 @@ def suspend_user():
 def test():
 	# Try to handle as plaintext
 
-	#print >> sys.stderr, 'in test function!'
+	print >> sys.stderr, 'in test function!'
 
 	dat = dict()
 	dat['timestamp'] = '2017-02-11'
