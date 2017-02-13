@@ -14,6 +14,7 @@
 			"result": "OK",
 			"key": "bksaoudu......aoelchsauh"
 		}</pre>
+		<hr>
 
 		<h2>activate_user</h2>
 		Reactivates LOST access for a user or generates a new user account if needed.<br><br>
@@ -29,6 +30,7 @@
 			"timestamp": "2017-02-02 06:15:13",
 			"result": "OK"
 		}</pre>
+		<hr>
 
 		<h2>suspend_user</h2>
 		Revokes access for a user. If the user does not exist or access has already been revoked, this call has no effect.<br><br>
@@ -44,6 +46,7 @@
 			"timestamp": "2017-02-02 06:15:13",
 			"result": "OK"
 		}</pre>
+		<hr>
 
 		<h2>list_products</h2>
 		Requests a listing of all products in LOST based on a filter criteria. Additional filters may be provided and additional data may be returned. The requests of the minimum form documented in the example must be accepted and the produced result must have at least the structure and fields of example provided. Asset information may not be provided by this call (e.g. no returning number of assets that are of product types).<br><br>
@@ -74,6 +77,7 @@
 				}
 			]
 		}</pre>
+		<hr>
 
 		<h2>add_product</h2>
 		Adds products to LOST. Requests should be atomic (all products are added or no prod- ucts are added) and attempting to add a duplicate product should cause the request to fail. A product is duplicated if at the end of the call the database would have two products with the same vendor and description.<br><br>
@@ -101,6 +105,7 @@
 			"timestamp": "2017-02-02 06:15:13",
 			"result": "OK"
 		}</pre>
+		<hr>
 
 		<h2>add_asset</h2>
 		Adds a new asset to LOST.<br><br>
