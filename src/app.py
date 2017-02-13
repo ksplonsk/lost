@@ -47,6 +47,7 @@ def lost_key():
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
+	# parse data out, return timestamp, result and key
 	dat = dict()
 	dat['timestamp'] = datetime.datetime.utcnow().isoformat()
 	dat['result'] = 'OK'
@@ -60,6 +61,7 @@ def activate_user():
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
+	# parse data out, return timestamp, and result
 	dat = dict()
 	dat['timestamp'] = req['timestamp']
 	dat['result'] = 'OK'
@@ -72,6 +74,7 @@ def suspend_user():
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
+	# parse data out, return timestamp, and result
 	dat = dict()
 	dat['timestamp'] = req['timestamp']
 	dat['result'] = 'OK'
@@ -84,6 +87,7 @@ def list_products():
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
+	# parse data out, return timestamp, and listing
 	listing1 = dict()
     listing1["vendor"] = "Dunder Mifflin"
     listing1["description"] = "LOST letter size notepad"
@@ -106,6 +110,7 @@ def add_product():
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
+	# parse data out, return timestamp, and result
 	dat = dict()
 	dat['timestamp'] = req['timestamp']
 	dat['result'] = 'OK'
@@ -118,18 +123,9 @@ def add_asset():
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
+	# parse data out, return timestamp, and result
 	dat = dict()
 	dat['timestamp'] = req['timestamp']
-	dat['result'] = 'OK'
-	data = json.dumps(dat)
-	return data
-
-@app.route('/rest/test', methods=('POST',))
-def test():
-	# Try to handle as plaintext
-	
-	dat = dict()
-	dat['timestamp'] = '2017-02-11'
 	dat['result'] = 'OK'
 	data = json.dumps(dat)
 	return data
