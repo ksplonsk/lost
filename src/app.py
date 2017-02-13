@@ -1,5 +1,6 @@
 import sys
 import json
+import datetime
 from flask import Flask, render_template, request
 # from config import dbname, dbhost, dbport
 # import sys
@@ -40,6 +41,30 @@ def in_transit_report():
 def logout():
 	return render_template('logout.html')
 
+@app.route('/rest/lost_key', methods=('POST',))
+def lost_key():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+	dat = dict()
+	dat['timestamp'] = datetime.datetime.utcnow().isoformat()
+	dat['result'] = 'OK'
+	dat['key'] = "bksaoudu......aoelchsauh"
+	data = json.dumps(dat)
+	return data
+
+@app.route('/rest/activate_user', methods=('POST',))
+def activate_user():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+	dat = dict()
+	dat['timestamp'] = req['timestamp']
+	dat['result'] = 'OK'
+	data = json.dumps(dat)
+	return data
 
 @app.route('/rest/suspend_user', methods=('POST',))
 def suspend_user():
@@ -53,6 +78,51 @@ def suspend_user():
 	data = json.dumps(dat)
 	return data
 
+@app.route('/rest/list_products', methods=('POST',))
+def list_products():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+	listing1 = dict()
+    listing1["vendor"] = "Dunder Mifflin"
+    listing1["description"] = "LOST letter size notepad"
+    listing1["compartments"] = req["compartments"]
+
+    listing2 = dict()
+    listing1["vendor"] = "big n large"
+    listing1["description"] = "LOST legal size notepad"
+    listing1["compartments"] = req["compartments"]
+
+    dat = dict()
+    dat["timestamp"] = req["timestamp"]
+    dat["listing"] = [listing1, listing2]
+    data = json.dumps(dat)
+    return data
+
+@app.route('/rest/add_product', methods=('POST',))
+def add_product():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+	dat = dict()
+	dat['timestamp'] = req['timestamp']
+	dat['result'] = 'OK'
+	data = json.dumps(dat)
+	return data
+
+@app.route('/rest/add_asset', methods=('POST',))
+def add_asset():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+	dat = dict()
+	dat['timestamp'] = req['timestamp']
+	dat['result'] = 'OK'
+	data = json.dumps(dat)
+	return data
 
 @app.route('/rest/test', methods=('POST',))
 def test():
