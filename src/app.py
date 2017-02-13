@@ -94,9 +94,9 @@ def list_products():
 	listing1["compartments"] = req["compartments"]
 
 	listing2 = dict()
-	listing1["vendor"] = "big n large"
-	listing1["description"] = "LOST legal size notepad"
-	listing1["compartments"] = req["compartments"]
+	listing2["vendor"] = "big n large"
+	listing2["description"] = "LOST legal size notepad"
+	listing2["compartments"] = req["compartments"]
 
 	dat = dict()
 	dat["timestamp"] = req["timestamp"]
