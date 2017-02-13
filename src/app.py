@@ -89,20 +89,20 @@ def list_products():
 
 	# parse data out, return timestamp, and listing
 	listing1 = dict()
-    listing1["vendor"] = "Dunder Mifflin"
-    listing1["description"] = "LOST letter size notepad"
-    listing1["compartments"] = req["compartments"]
+	listing1["vendor"] = "Dunder Mifflin"
+	listing1["description"] = "LOST letter size notepad"
+	listing1["compartments"] = req["compartments"]
 
-    listing2 = dict()
-    listing1["vendor"] = "big n large"
-    listing1["description"] = "LOST legal size notepad"
-    listing1["compartments"] = req["compartments"]
+	listing2 = dict()
+	listing1["vendor"] = "big n large"
+	listing1["description"] = "LOST legal size notepad"
+	listing1["compartments"] = req["compartments"]
 
-    dat = dict()
-    dat["timestamp"] = req["timestamp"]
-    dat["listing"] = [listing1, listing2]
-    data = json.dumps(dat)
-    return data
+	dat = dict()
+	dat["timestamp"] = req["timestamp"]
+	dat["listing"] = [listing1, listing2]
+	data = json.dumps(dat)
+	return data
 
 @app.route('/rest/add_product', methods=('POST',))
 def add_product():
