@@ -21,9 +21,20 @@ def login():
 
 @app.route('/create_user')
 def login():
-	if request.method=='GET'
+	if request.method=='GET':
 		return render_template('create_user.html')
-	if request.method=='POST'
+
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+		username = req['username']
+		password = req['password']
+
+		# check to see if username is in the database
+
+		# if username doesnt exist, add username and password into the dictionary
+
+		return render_template('user_created', username=username)
+
 
 @app.route('/dashboard')
 def login():
