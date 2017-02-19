@@ -43,14 +43,17 @@ def create_user():
 		password = request.form['password']
 
 		SQL = "SELECT * FROM users WHERE username=%s;"
- 		data = (name,)
-		cur.execute(SQL, data)
-		user_res = cur.fetchall()
+		cur.execute(SQL, (username,))
+		users = cur.fetchall()
 
 		# check to see if username is in the database
-		return render_template('user_already_exists.html', username=username)
+		if bool(users):
+			return render_template('user_already_exists.html', username=username)
 
 		# if username doesnt exist, add username and password into the dictionary
+		SQL = "INSERT INTO users (user_pk, username, password) VALUES (DEFAULT, %s, %s);"
+		cur.execute(SQL, data)
+		conn.commit()
 
 		# return render_template('user_created.html', username=username)
 
