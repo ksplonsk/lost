@@ -11,7 +11,7 @@ import psycopg2
 
 app = Flask(__name__)
 
-@app.route('/'
+@app.route('/')
 def index():
 	return render_template('login.html')
 
