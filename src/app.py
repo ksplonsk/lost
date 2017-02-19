@@ -21,7 +21,9 @@ def login():
 
 @app.route('/create_user')
 def login():
-	return render_template('create_user.html')
+	if request.method=='GET'
+		return render_template('create_user.html')
+	if request.method=='POST'
 
 @app.route('/dashboard')
 def login():
