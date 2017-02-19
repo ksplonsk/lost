@@ -29,10 +29,11 @@ def create_user():
 		password = request.form['password']
 
 		# check to see if username is in the database
+		return render_template('user_already_exists.html', username=username)
 
 		# if username doesnt exist, add username and password into the dictionary
 
-		return render_template('user_created.html', username=username)
+		# return render_template('user_created.html', username=username)
 
 
 @app.route('/dashboard', methods=('GET', 'POST',))
