@@ -35,10 +35,12 @@ def login():
 		if not bool(users):
 			return render_template('unmatched.html', username=username)
 
-		# if username and password dont exist, go back to login page
-		# return render_template('unmatched.html', username=username)
+		# if username and password don't exist, go back to unmatched page
+		if users[0][2] == password:
+			return render_template('dashboard.html', username=username)
 
-		#return render_template('dashboard.html', username=username)
+		else:
+			return render_template('unmatched.html', username=username)
 
 @app.route('/create_user', methods=('GET', 'POST'))
 def create_user():
@@ -57,7 +59,7 @@ def create_user():
 		if bool(users):
 			return render_template('user_already_exists.html', username=username)
 
-		# if username doesnt exist, add username and password to the database
+		# if username doesn't exist, add username and password to the database
 		SQL = "INSERT INTO users (user_pk, username, password) VALUES (DEFAULT, %s, %s);"
 		cur.execute(SQL, (username,password))
 		conn.commit()
