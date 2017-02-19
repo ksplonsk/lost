@@ -27,11 +27,18 @@ def login():
 		username = request.form['username']
 		password = request.form['password']
 
-		# check to see if username is in the database
-		#return render_template('dashboard.html', username=username)
+		SQL = "SELECT * FROM users WHERE username=%s;"
+		cur.execute(SQL, (username,))
+		users = cur.fetchall()
+
+		# if no user by that name, go to unmatched page
+		if not bool(users):
+			return render_template('unmatched.html', username=username)
 
 		# if username and password dont exist, go back to login page
-		return render_template('unmatched.html', username=username)
+		# return render_template('unmatched.html', username=username)
+
+		#return render_template('dashboard.html', username=username)
 
 @app.route('/create_user', methods=('GET', 'POST'))
 def create_user():
