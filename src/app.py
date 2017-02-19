@@ -15,11 +15,11 @@ app = Flask(__name__)
 def index():
 	return render_template('login.html')
 
-@app.route('/login', methods=('GET', 'POST'))
+@app.route('/login', methods=('GET', 'POST',))
 def login():
 	return render_template('login.html')
 
-@app.route('/create_user', methods=('GET', 'POST'))
+@app.route('/create_user', methods=('GET', 'POST',))
 def create_user():
 	if request.method=='GET':
 		return render_template('create_user.html')
@@ -35,6 +35,6 @@ def create_user():
 		return render_template('user_created.html', username=username)
 
 
-@app.route('/dashboard', methods=('GET', 'POST'))
+@app.route('/dashboard', methods=('GET', 'POST',))
 def dashboard():
 	return render_template('dashboard.html')
