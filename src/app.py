@@ -47,6 +47,6 @@ def create_user():
 		# return render_template('user_created.html', username=username)
 
 
-@app.route('/dashboard', methods=('GET'))
+@app.route('/dashboard', methods=('GET',))
 def dashboard():
 	return render_template('dashboard.html')
