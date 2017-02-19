@@ -17,7 +17,17 @@ def index():
 
 @app.route('/login', methods=('GET', 'POST'))
 def login():
-	return render_template('login.html')
+	if request.method=='GET':
+		return render_template('login.html')
+
+	if request.method=='POST' and 'username' in request.form and 'password' in request.form:
+		username = request.form['username']
+		password = request.form['password']
+
+		# check to see if username is in the database
+		return render_template('dashboard.html', username=username)
+
+		# if username and password dont exist, go back to login page
 
 @app.route('/create_user', methods=('GET', 'POST'))
 def create_user():
