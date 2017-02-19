@@ -55,7 +55,7 @@ def create_user():
 		cur.execute(SQL, data)
 		conn.commit()
 
-		# return render_template('user_created.html', username=username)
+		return render_template('user_created.html', username=username)
 
 
 @app.route('/dashboard', methods=('GET',))
