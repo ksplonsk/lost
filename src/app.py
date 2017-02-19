@@ -29,14 +29,14 @@ def login():
 
 		SQL = "SELECT * FROM users WHERE username=%s;"
 		cur.execute(SQL, (username,))
-		users = cur.fetchall()
+		user = cur.fetchone()
 
 		# if no user by that name, go to unmatched page
-		if not bool(users):
+		if user == None:
 			return render_template('unmatched.html', username=username)
 
 		# if username and password don't exist, go back to unmatched page
-		if users[0][2] == password:
+		if user[2] == password:
 			return render_template('dashboard.html', username=username)
 
 		else:
@@ -53,10 +53,10 @@ def create_user():
 
 		SQL = "SELECT * FROM users WHERE username=%s;"
 		cur.execute(SQL, (username,))
-		users = cur.fetchall()
+		user = cur.fetchone()
 
 		# check to see if username is in the database
-		if bool(users):
+		if user != None:
 			return render_template('user_already_exists.html', username=username)
 
 		# if username doesn't exist, add username and password to the database
