@@ -25,9 +25,10 @@ def login():
 		password = request.form['password']
 
 		# check to see if username is in the database
-		return render_template('dashboard.html', username=username)
+		#return render_template('dashboard.html', username=username)
 
 		# if username and password dont exist, go back to login page
+		return render_template('unmatched.html', username=username)
 
 @app.route('/create_user', methods=('GET', 'POST'))
 def create_user():
@@ -46,6 +47,6 @@ def create_user():
 		# return render_template('user_created.html', username=username)
 
 
-@app.route('/dashboard', methods=('GET', 'POST',))
+@app.route('/dashboard', methods=('GET'))
 def dashboard():
 	return render_template('dashboard.html')
