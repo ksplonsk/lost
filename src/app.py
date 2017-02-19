@@ -15,18 +15,18 @@ app = Flask(__name__)
 def index():
 	return render_template('login.html')
 
-@app.route('/login', methods=('GET', 'POST',))
+@app.route('/login', methods=('GET', 'POST'))
 def login():
 	return render_template('login.html')
 
-@app.route('/create_user', methods=('GET', 'POST',))
+@app.route('/create_user', methods=('GET', 'POST'))
 def create_user():
 	if request.method=='GET':
 		return render_template('create_user.html')
 
 	if request.method=='POST' and 'username' in request.form and 'password' in request.form:
 		username = request.form['username']
-		password = request.forms['password']
+		password = request.form['password']
 
 		# check to see if username is in the database
 
