@@ -50,9 +50,9 @@ def create_user():
 		if bool(users):
 			return render_template('user_already_exists.html', username=username)
 
-		# if username doesnt exist, add username and password into the dictionary
+		# if username doesnt exist, add username and password to the database
 		SQL = "INSERT INTO users (user_pk, username, password) VALUES (DEFAULT, %s, %s);"
-		cur.execute(SQL, data)
+		cur.execute(SQL, (username,password))
 		conn.commit()
 
 		return render_template('user_created.html', username=username)
