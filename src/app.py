@@ -2,14 +2,17 @@ import sys
 import json
 import datetime
 from flask import Flask, render_template, request
-from config import dbname, dbhost, dbport
+# from config import dbname, dbhost, dbport
 import sys
 import psycopg2
 
-#conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
-#cur = conn.cursor()
-
 app = Flask(__name__)
+
+dbname = 'lost'
+dbhost = '127.0.0.1'
+dbport = 5432
+conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+cur = conn.cursor()
 
 @app.route('/')
 def index():
@@ -38,6 +41,11 @@ def create_user():
 	if request.method=='POST' and 'username' in request.form and 'password' in request.form:
 		username = request.form['username']
 		password = request.form['password']
+
+		SQL = "SELECT * FROM users WHERE username=%s;"
+ 		data = (name,)
+		cur.execute(SQL, data)
+		user_res = cur.fetchall()
 
 		# check to see if username is in the database
 		return render_template('user_already_exists.html', username=username)
