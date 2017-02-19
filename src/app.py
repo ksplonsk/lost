@@ -20,7 +20,7 @@ def login():
 	return render_template('login.html')
 
 @app.route('/create_user')
-def login():
+def create_user():
 	if request.method=='GET':
 		return render_template('create_user.html')
 
@@ -37,5 +37,5 @@ def login():
 
 
 @app.route('/dashboard')
-def login():
+def dashboard():
 	return render_template('dashboard.html')
