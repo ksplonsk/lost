@@ -1,7 +1,7 @@
 import sys
 import json
 import datetime
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 # from config import dbname, dbhost, dbport
 import sys
 import psycopg2
@@ -37,7 +37,9 @@ def login():
 
 		# if username and password don't exist, go back to unmatched page
 		if user[2] == password:
-			return render_template('dashboard.html', username=username)
+			session['username'] = username
+			session['logged_in'] = True
+			return render_template('dashboard.html')
 
 		else:
 			return render_template('unmatched.html', username=username)
