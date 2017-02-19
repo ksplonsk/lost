@@ -33,7 +33,7 @@ def login():
 
 		# if username doesnt exist, add username and password into the dictionary
 
-		return render_template('user_created', username=username)
+		return render_template('user_created.html', username=username)
 
 
 @app.route('/dashboard')
