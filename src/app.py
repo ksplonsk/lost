@@ -39,7 +39,7 @@ def login():
 		if user[2] == password:
 			session['username'] = username
 			session['logged_in'] = True
-			return redirect(url_for('dashboard.html'))
+			return redirect(url_for('dashboard'))
 
 		else:
 			return render_template('unmatched.html', username=username)
