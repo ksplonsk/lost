@@ -1,7 +1,7 @@
 <html>
 	<body><h2>Create User</h2>Welcome to the create user page, please choose a username and password to continue<br><br>
 
-		<form action="{{url_for('create_user')}}">
+		<form action="{{url_for('create_user', _method='POST')}}">
 			Username<br>
 			<input type="text" name="username" /><br><br>
 			Password<br>
