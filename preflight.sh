@@ -2,7 +2,7 @@
 
 # This script handles the setup that must occur prior to running LOST
 # Specifically this script:
-#    1. creates the database
+#    1. creates the database tables
 #    2. copies the required source to $HOME/wsgi
 
 if [ "$#" -ne 1 ]; then
