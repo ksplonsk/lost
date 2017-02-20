@@ -2,15 +2,18 @@ import sys
 import json
 import datetime
 from flask import Flask, render_template, request, session, redirect, url_for
-# from config import dbname, dbhost, dbport
+from config import dbname, dbhost, dbport, secret_key
 import sys
 import psycopg2
 
 app = Flask(__name__)
 
-dbname = 'lost'
-dbhost = '127.0.0.1'
-dbport = 5432
+# dbname = 'lost'
+# dbhost = '127.0.0.1'
+# dbport = 5432
+
+app.config["SECRET_KEY"] = secret_key
+
 conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 cur = conn.cursor()
 
