@@ -66,7 +66,7 @@ def create_user():
 
 		# if username doesn't exist, add username and password to the database
 		SQL = "INSERT INTO users (user_pk, username, password, roles_fk) VALUES (DEFAULT, %s, %s, (SELECT role_pk FROM roles WHERE (title = %s)));"
-		cur.execute(SQL, (username,password))
+		cur.execute(SQL, (username,password,role))
 		conn.commit()
 
 		return render_template('user_created.html', username=username)
