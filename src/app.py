@@ -46,7 +46,21 @@ def login():
 @app.route('/create_user', methods=('GET', 'POST'))
 def create_user():
 	if request.method=='GET':
-		return render_template('create_user.html')
+		#<option value="Logistics Officer">Logistics Officer</option>
+		#<option value="Facilities Officer">Facilities Officer</option>
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		SQL = "SELECT title FROM roles;"
+		cur.execute(SQL)
+		roles = cur.fetchall()
+
+		role_options = ''
+		for role in roles:
+			role_option = '<option value="{}">{}</option>'.format(role[0], role[0])
+			role_options += role_option
+		return render_template('create_user.html', role_options=role_options)
 
 	if request.method=='POST' and 'username' in request.form and 'password' in request.form and 'role' in request.form:
 		username = request.form['username']
@@ -75,3 +89,5 @@ def create_user():
 @app.route('/dashboard', methods=('GET',))
 def dashboard():
 	return render_template('dashboard.html')
+
+
