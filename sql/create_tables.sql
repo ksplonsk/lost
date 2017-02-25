@@ -4,6 +4,7 @@ title varchar(32) -- length of 16 characters specified in project specs
 );
 
 INSERT INTO roles (title) VALUES ('Logistics Officer');
+INSERT INTO roles (title) VALUES ('Facilities Officer');
 
 CREATE TABLE users (
 user_pk serial primary key, -- chose to use a numeric pk, I am more comfortable using numeric pk's
