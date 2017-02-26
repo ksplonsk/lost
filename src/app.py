@@ -89,4 +89,44 @@ def create_user():
 def dashboard():
 	return render_template('dashboard.html')
 
+@app.route('/add_facility', methods=('GET', 'POST'))
+def add_facility():
+	if request.method=='GET':
+
+		# conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		# cur = conn.cursor()
+
+		# SQL = "SELECT title FROM roles;"
+		# cur.execute(SQL)
+		# roles = cur.fetchall()
+
+		# role_options = []
+		# for role in roles:
+		# 	role_options.append(role[0])
+		return render_template('add_facility.html')
+
+	if request.method=='POST' and 'username' in request.form and 'password' in request.form:
+		username = request.form['username']
+		password = request.form['password']
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		SQL = "SELECT * FROM users WHERE username=%s;"
+		cur.execute(SQL, (username,))
+		user = cur.fetchone()
+
+		# if no user by that name, go to unmatched page
+		if user == None:
+			return render_template('unmatched.html', username=username)
+
+		# if username and password don't exist, go back to unmatched page
+		if user[2] == password:
+			session['username'] = username
+			session['logged_in'] = True
+			return redirect(url_for('dashboard'))
+
+		else:
+			return render_template('unmatched.html', username=username)
+
 
