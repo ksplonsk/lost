@@ -139,19 +139,28 @@ def add_asset():
 		all_assets = cur.fetchall()
 
 		assets = []
-		for asset in all_facilities:
+		for asset in all_assets:
 			assets.append("{}: {}".format(asset[2], asset[3]))
-		return render_template('add_asset.html', assets=assets)
 
-	if request.method=='POST' and 'facility_fk' in request.form and 'asset_tag' in request.form and 'description' in request.form:
-		facility_fk = request.form['facility_fk']
+		SQL = "SELECT common_name FROM facilities;"
+		cur.execute(SQL)
+		all_facilities = cur.fetchall()
+
+		facilities = []
+		for facility in all_facilities:
+			facilities.append(facility[0])
+
+		return render_template('add_asset.html', assets=assets, facilities=facilities)
+
+	if request.method=='POST' and 'common_name' in request.form and 'asset_tag' in request.form and 'description' in request.form:
+		common_name = request.form['common_name']
 		asset_tag = request.form['asset_tag']
 		description = request.form['description']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		SQL = "SELECT * FROM facilities WHERE asset_tag=%s;"
+		SQL = "SELECT * FROM assets WHERE asset_tag=%s;"
 		cur.execute(SQL, (asset_tag,))
 		asset = cur.fetchone()
 
@@ -160,7 +169,7 @@ def add_asset():
 			return render_template('asset_already_exists.html', asset_tag=asset_tag)
 
 		SQL = "INSERT INTO assets (asset_pk, facility_fk, asset_tag, description) VALUES (DEFAULT, %s, %s, %s);"
-		cur.execute(SQL, (facility_fk,asset_tag,description))
+		cur.execute(SQL, (common_name,asset_tag,description))
 		conn.commit()
 		
 		return redirect(url_for('add_asset'))
