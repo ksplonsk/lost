@@ -102,7 +102,7 @@ def add_facility():
 
 		facilities = []
 		for facility in all_facilities:
-			facilities.append(facility[2])
+			facilities.append("{} ({}), {}".format(facility[2], facility[1], facility[3]))
 		return render_template('add_facility.html', facilities=facilities)
 
 	if request.method=='POST' and 'common_name' in request.form and 'fcode' in request.form and 'location' in request.form:
