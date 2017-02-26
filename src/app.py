@@ -140,7 +140,7 @@ def add_asset():
 
 		assets = []
 		for asset in all_assets:
-			assets.append("{}: {}".format(asset[2], asset[3]))
+			assets.append("{}: {}".format(asset[1], asset[2]))
 
 		SQL = "SELECT common_name FROM facilities;"
 		cur.execute(SQL)
