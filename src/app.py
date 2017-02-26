@@ -102,8 +102,8 @@ def add_facility():
 
 		facilities = []
 		for facility in all_facilities:
-			facilities.append(facility[0])
-		return render_template('add_facility.html')
+			facilities.append(facility[2])
+		return render_template('add_facility.html', facilities=facilities)
 
 	if request.method=='POST' and 'common_name' in request.form and 'fcode' in request.form and 'location' in request.form:
 		common_name = request.form['common_name']
