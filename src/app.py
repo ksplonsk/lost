@@ -93,16 +93,16 @@ def dashboard():
 def add_facility():
 	if request.method=='GET':
 
-		# conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
-		# cur = conn.cursor()
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
 
-		# SQL = "SELECT title FROM roles;"
-		# cur.execute(SQL)
-		# roles = cur.fetchall()
+		SQL = "SELECT * FROM facilities;"
+		cur.execute(SQL)
+		all_facilities = cur.fetchall()
 
-		# role_options = []
-		# for role in roles:
-		# 	role_options.append(role[0])
+		facilities = []
+		for facility in all_facilities:
+			facilities.append(facility[0])
 		return render_template('add_facility.html')
 
 	if request.method=='POST' and 'common_name' in request.form and 'fcode' in request.form and 'location' in request.form:

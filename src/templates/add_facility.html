@@ -1,6 +1,10 @@
 <html>
-	<body><h2>Add Facility</h2>Welcome to the add facility page, please enter a facility name, fcode and location to continue.<br><br>
+	<body><h2>Add Facility</h2>Welcome to the add facility page, please enter a facility name, facility code and location to continue.<br><br>
 
+
+		{% for facility in facilities %}
+			<h4>{{facility}}</h4>
+		{% endfor %}
 		<form action="{{url_for('add_facility')}}" method="POST">
 			Facility Name<br>
 			<input type="text" name="common_name" /><br><br>
