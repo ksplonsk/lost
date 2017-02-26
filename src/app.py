@@ -152,10 +152,11 @@ def add_asset():
 
 		return render_template('add_asset.html', assets=assets, facilities=facilities)
 
-	if request.method=='POST' and 'common_name' in request.form and 'asset_tag' in request.form and 'description' in request.form:
+	if request.method=='POST' and 'common_name' in request.form and 'asset_tag' in request.form and 'description' in request.form 'arrival' in request.form::
 		common_name = request.form['common_name']
 		asset_tag = request.form['asset_tag']
 		description = request.form['description']
+		arrival = request.form['arrival']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
@@ -171,8 +172,8 @@ def add_asset():
 		SQL = "INSERT INTO assets (asset_pk, asset_tag, description) VALUES (DEFAULT, %s, %s);"
 		cur.execute(SQL, (asset_tag,description))
 
-		SQL = "INSERT INTO assets (asset_pk, facility_fk, asset_tag, description) VALUES (DEFAULT, (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s, %s);"
-		cur.execute(SQL,)
+		SQL = "INSERT INTO asset_at (asset_fk, facility_fk, arrival) VALUES ((SELECT asset_pk FROM assets WHERE (asset_tag = %s)), (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s);"
+		cur.execute(SQL, (asset_tag,common_name,arrival))
 
 		conn.commit()
 		
