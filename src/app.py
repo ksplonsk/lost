@@ -105,24 +105,24 @@ def add_facility():
 		# 	role_options.append(role[0])
 		return render_template('add_facility.html')
 
-	if request.method=='POST' and 'facility_name' in request.form and 'fcode' in request.form and 'location' in request.form:
-		facility_name = request.form['facility_name']
+	if request.method=='POST' and 'common_name' in request.form and 'fcode' in request.form and 'location' in request.form:
+		common_name = request.form['common_name']
 		fcode = request.form['fcode']
 		location = request.form['location']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		SQL = "SELECT * FROM facilities WHERE (facility_name=%s OR fcode=%s);"
-		cur.execute(SQL, (facility_name, fcode))
+		SQL = "SELECT * FROM facilities WHERE (common_name=%s OR fcode=%s);"
+		cur.execute(SQL, (common_name, fcode))
 		facility = cur.fetchone()
 
 		# if facility already exists, go to facility already exists page
 		if facility != None:
-			return render_template('facility_already_exists.html', facility_name=facility_name, fcode=fcode)
+			return render_template('facility_already_exists.html', common_name=common_name, fcode=fcode)
 
 		SQL = "INSERT INTO facilities (facility_pk, common_name, fcode, location) VALUES (DEFAULT, %s, %s, %s);"
-		cur.execute(SQL, (facility_name,fcode,location))
+		cur.execute(SQL, (common_name,fcode,location))
 		conn.commit()
 		
 		return redirect(url_for('add_facility'))
