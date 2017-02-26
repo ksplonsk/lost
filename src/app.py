@@ -38,6 +38,10 @@ def login():
 		if user[2] == password:
 			session['username'] = username
 			session['logged_in'] = True
+			SQL = "SELECT * FROM roles WHERE pk=%d;"
+			cur.execute(SQL, (user[1],))
+			role = cur.fetchone()
+			session['role'] = role[1]
 			return redirect(url_for('dashboard'))
 
 		else:
@@ -151,6 +155,51 @@ def add_asset():
 			facilities.append(facility[0])
 
 		return render_template('add_asset.html', assets=assets, facilities=facilities)
+
+	if request.method=='POST' and 'common_name' in request.form and 'asset_tag' in request.form and 'description' in request.form and 'arrival' in request.form:
+		common_name = request.form['common_name']
+		asset_tag = request.form['asset_tag']
+		description = request.form['description']
+		arrival = request.form['arrival']
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		SQL = "SELECT * FROM assets WHERE asset_tag=%s;"
+		cur.execute(SQL, (asset_tag,))
+		asset = cur.fetchone()
+
+		# if asset already exists, go to asset already exists page
+		if asset != None:
+			return render_template('asset_already_exists.html', asset_tag=asset_tag)
+
+		SQL = "INSERT INTO assets (asset_pk, asset_tag, description) VALUES (DEFAULT, %s, %s);"
+		cur.execute(SQL, (asset_tag,description))
+
+		SQL = "INSERT INTO asset_at (asset_fk, facility_fk, arrival) VALUES ((SELECT asset_pk FROM assets WHERE (asset_tag = %s)), (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s);"
+		cur.execute(SQL, (asset_tag,common_name,arrival))
+
+		conn.commit()
+		
+		return redirect(url_for('add_asset'))
+
+
+@app.route('/dispose_asset', methods=('GET', 'POST'))
+def dispose_asset():
+	if request.method=='GET':
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		SQL = "SELECT * FROM assets;"
+		cur.execute(SQL)
+		all_assets = cur.fetchall()
+
+		assets = []
+		for asset in all_assets:
+			assets.append("{}: {}".format(asset[1], asset[2]))
+
+		return render_template('dispose_asset.html', assets=assets)
 
 	if request.method=='POST' and 'common_name' in request.form and 'asset_tag' in request.form and 'description' in request.form and 'arrival' in request.form:
 		common_name = request.form['common_name']
