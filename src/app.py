@@ -38,7 +38,7 @@ def login():
 		if user[2] == password:
 			session['username'] = username
 			session['logged_in'] = True
-			SQL = "SELECT * FROM roles WHERE pk=%d;"
+			SQL = "SELECT * FROM roles WHERE role_pk=%d;"
 			cur.execute(SQL, (user[1],))
 			role = cur.fetchone()
 			session['role'] = role[1]
@@ -187,6 +187,9 @@ def add_asset():
 @app.route('/dispose_asset', methods=('GET', 'POST'))
 def dispose_asset():
 	if request.method=='GET':
+
+		if not session['logged_in'] or session['role'] != 'Logistics Officer':
+			return render_template('asset_dispose_error.html', error_reason="only Logistics Officers cannot dispose of assets.")
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
