@@ -24,7 +24,15 @@ CREATE TABLE assets (
 asset_pk serial primary key, -- chose to use a numeric pk, I am more comfortable using numeric pk's
 facility_fk integer REFERENCES facilities(facility_pk), -- connects facilities assets, if this is null it means it is disposed
 asset_tag varchar(16), -- tag for the asset
-description varchar(255) -- description of the asset
+description text, -- description of the asset
+disposed boolean default false
+);
+
+CREATE TABLE asset_at (
+	asset_fk integer REFERENCES assets (asset_pk) not null,
+	facility_fk integer REFERENCES facilities (facility_pk) not null,  
+	arrival timestamp default null,
+	departure timestamp default null
 );
 
 
