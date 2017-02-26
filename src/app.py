@@ -64,7 +64,7 @@ def create_user():
 	if request.method=='POST' and 'username' in request.form and 'password' in request.form and 'role' in request.form:
 		username = request.form['username']
 		password = request.form['password']
-		role = request.form['role']
+		selected_role = request.form['role']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
@@ -79,7 +79,7 @@ def create_user():
 
 		# if username doesn't exist, add username and password to the database
 		SQL = "INSERT INTO users (user_pk, username, password, role_fk) VALUES (DEFAULT, %s, %s, (SELECT role_pk FROM roles WHERE (title = %s)));"
-		cur.execute(SQL, (username,password,role))
+		cur.execute(SQL, (username,password,selected_role))
 		conn.commit()
 
 		return render_template('user_created.html', username=username)
