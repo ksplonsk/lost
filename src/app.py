@@ -56,10 +56,9 @@ def create_user():
 		cur.execute(SQL)
 		roles = cur.fetchall()
 
-		role_options = ''
+		role_options = []
 		for role in roles:
-			role_option = '<option value="{}">{}</option>'.format(role[0], role[0])
-			role_options += role_option
+			role_options.append(role[0])
 		return render_template('create_user.html', role_options=role_options)
 
 	if request.method=='POST' and 'username' in request.form and 'password' in request.form and 'role' in request.form:
