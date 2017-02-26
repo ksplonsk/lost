@@ -168,7 +168,7 @@ def add_asset():
 		if asset != None:
 			return render_template('asset_already_exists.html', asset_tag=asset_tag)
 
-		SQL = "INSERT INTO assets (asset_pk, facility_fk, asset_tag, description) VALUES (DEFAULT, %s, %s, %s);"
+		SQL = "INSERT INTO assets (asset_pk, facility_fk, asset_tag, description) VALUES (DEFAULT, (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s, %s);"
 		cur.execute(SQL, (common_name,asset_tag,description))
 		conn.commit()
 		
