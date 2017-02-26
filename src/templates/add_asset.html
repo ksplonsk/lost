@@ -5,21 +5,21 @@
 		{% for asset in assets %}
 			<h4>{{asset}}</h4>
 		{% endfor %}
-		<br><br>
+		<br>
 		<form action="{{url_for('add_asset')}}" method="POST">
 			Asset Tag<br>
 			<input type="text" name="asset_tag" maxlength="16" /><br><br>
 			Asset Description<br>
-			<input type="text" name="description" maxlength="255" /><br><br>
+			<input type="text" name="description" /><br><br>
 			Date<br>
-			<input type="text" name="description" maxlength="255" /><br><br>
+			<input type="date" name="arrival" /><br><br>
 			Facility<br>
 			<select name="common_name">
 				{% for facility in facilities %}
 					<option value={{facility}}>{{facility}}</option>
 				{% endfor %}
 			</select>
-			<br>
+			<br><br><br>
 			<input type="submit" name="submit" value="Add Asset" />
 		</form>
 	</body>
