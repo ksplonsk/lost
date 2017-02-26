@@ -164,12 +164,16 @@ def add_asset():
 		cur.execute(SQL, (asset_tag,))
 		asset = cur.fetchone()
 
-		# if facility already exists, go to facility already exists page
+		# if asset already exists, go to asset already exists page
 		if asset != None:
 			return render_template('asset_already_exists.html', asset_tag=asset_tag)
 
+		SQL = "INSERT INTO assets (asset_pk, asset_tag, description) VALUES (DEFAULT, %s, %s);"
+		cur.execute(SQL, (asset_tag,description))
+
 		SQL = "INSERT INTO assets (asset_pk, facility_fk, asset_tag, description) VALUES (DEFAULT, (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s, %s);"
-		cur.execute(SQL, (common_name,asset_tag,description))
+		cur.execute(SQL,)
+
 		conn.commit()
 		
 		return redirect(url_for('add_asset'))
