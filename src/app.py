@@ -127,4 +127,42 @@ def add_facility():
 		
 		return redirect(url_for('add_facility'))
 
+@app.route('/add_asset', methods=('GET', 'POST'))
+def add_asset():
+	if request.method=='GET':
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		SQL = "SELECT * FROM assets;"
+		cur.execute(SQL)
+		all_assets = cur.fetchall()
+
+		assets = []
+		for asset in all_facilities:
+			assets.append("{}: {}".format(asset[2], asset[3]))
+		return render_template('add_asset.html', assets=assets)
+
+	if request.method=='POST' and 'facility_fk' in request.form and 'asset_tag' in request.form and 'description' in request.form:
+		facility_fk = request.form['facility_fk']
+		asset_tag = request.form['asset_tag']
+		description = request.form['description']
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		SQL = "SELECT * FROM facilities WHERE asset_tag=%s;"
+		cur.execute(SQL, (asset_tag,))
+		asset = cur.fetchone()
+
+		# if facility already exists, go to facility already exists page
+		if asset != None:
+			return render_template('asset_already_exists.html', asset_tag=asset_tag)
+
+		SQL = "INSERT INTO assets (asset_pk, facility_fk, asset_tag, description) VALUES (DEFAULT, %s, %s, %s);"
+		cur.execute(SQL, (facility_fk,asset_tag,description))
+		conn.commit()
+		
+		return redirect(url_for('add_asset'))
+
 

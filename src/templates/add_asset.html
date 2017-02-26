@@ -1,0 +1,26 @@
+<html>
+	<body><h2>Add Asset</h2>Welcome to the add asset page, please enter an asset tag, an asset description, date and facility to continue.<br><br>
+
+		Current Assets:<br>
+		{% for asset in assets %}
+			<h4>{{asset}}</h4>
+		{% endfor %}
+		<br><br>
+		<form action="{{url_for('add_asset')}}" method="POST">
+			Asset Tag<br>
+			<input type="text" name="asset_tag" maxlength="16" /><br><br>
+			Asset Description<br>
+			<input type="text" name="description" maxlength="255" /><br><br>
+			Date<br>
+			<input type="text" name="description" maxlength="255" /><br><br>
+			Facility<br>
+			<select name="common_name">
+				{% for facility in facilities %}
+					<option value={{facility}}>{{facility}}</option>
+				{% endfor %}
+			</select>
+			<br>
+			<input type="submit" name="submit" value="Add Asset" />
+		</form>
+	</body>
+</html>
