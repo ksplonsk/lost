@@ -113,7 +113,7 @@ def add_facility():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		SQL = "SELECT * FROM facilities WHERE facility_name=%s OR fcode=%s;"
+		SQL = "SELECT * FROM facilities WHERE (facility_name=%s OR fcode=%s);"
 		cur.execute(SQL, (facility_name, fcode))
 		facility = cur.fetchone()
 
