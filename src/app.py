@@ -194,7 +194,7 @@ def dispose_asset():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		SQL = "SELECT * FROM assets;"
+		SQL = "SELECT * FROM assets WHERE disposed=false;"
 		cur.execute(SQL)
 		all_assets = cur.fetchall()
 
@@ -252,7 +252,7 @@ def asset_report():
 		cur.execute(SQL)
 		all_facilities = cur.fetchall()
 
-		facilities = []
+		facilities = ['All']
 		for facility in all_facilities:
 			facilities.append(facility[0])
 
