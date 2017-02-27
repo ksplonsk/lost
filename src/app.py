@@ -240,14 +240,6 @@ def asset_report():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		SQL = "SELECT * FROM assets;"
-		cur.execute(SQL)
-		all_assets = cur.fetchall()
-
-		assets = []
-		for asset in all_assets:
-			assets.append("{}: {}".format(asset[1], asset[2]))
-
 		SQL = "SELECT common_name FROM facilities;"
 		cur.execute(SQL)
 		all_facilities = cur.fetchall()

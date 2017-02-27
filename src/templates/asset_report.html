@@ -1,10 +1,6 @@
 <html>
 	<body><h2>Asset Report</h2>Welcome to the add asset report page, please select a facility and a date to continue.<br><br>
 
-		Current Assets:<br>
-		{% for asset in assets %}
-			<h4>{{asset}}</h4>
-		{% endfor %}
 		<br>
 		<form action="{{url_for('asset_report')}}" method="POST">
 			Facility<br>
@@ -14,7 +10,7 @@
 				{% endfor %}
 			</select><br><br>
 			Date<br>
-			<input type="date" name="report_date" /><br><br>
+			<input type="date" name="report_date" value="2017-01-01"/><br><br>
 			<br><br><br>
 			<input type="submit" name="submit" value="Get Report" />
 		</form>
