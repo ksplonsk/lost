@@ -175,9 +175,11 @@ def add_asset():
 		if asset != None:
 			return render_template('asset_already_exists.html', asset_tag=asset_tag)
 
+		# add asset to assets table
 		SQL = "INSERT INTO assets (asset_pk, asset_tag, description) VALUES (DEFAULT, %s, %s);"
 		cur.execute(SQL, (asset_tag,description))
 
+		# add asset to asset_at table and associates it with a facility
 		SQL = "INSERT INTO asset_at (asset_fk, facility_fk, arrival) VALUES ((SELECT asset_pk FROM assets WHERE (asset_tag = %s)), (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s);"
 		cur.execute(SQL, (asset_tag,common_name,arrival))
 
@@ -225,9 +227,11 @@ def dispose_asset():
 		if asset[3]:
 			return render_template('asset_dispose_error.html', error_reason="asset has already been disposed of.")
 
+		# sets asset flag disposed to true
 		SQL = "UPDATE assets SET disposed=True WHERE asset_tag=%s;"
 		cur.execute(SQL, (asset_tag,))
 
+		# set departure date to disposal date
 		SQL = "UPDATE asset_at SET departure=%s WHERE (departure IS NULL AND asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
 		cur.execute(SQL, (disposal_date, asset_tag))
 
@@ -261,14 +265,17 @@ def asset_report():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
+		# use a JOIN to get records for all facilities for the date we are concerned with
 		if common_name == 'All':
 			cur.execute("SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s);", (report_date,report_date))
 
+		# use a JOIN to get records for facility and date we are concerned with
 		else:
 			cur.execute("SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s) AND f.common_name=%s;", (report_date,report_date,common_name))
 
 		report_results = cur.fetchall()
 
+		# build up report row dictionaries
 		report = []
 		for result in report_results:
 			row = dict()

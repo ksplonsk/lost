@@ -1,4 +1,4 @@
-This app takes you through a flow of screens, allowing you to login, or create a username and password. From either page you are then directed to a dashboard page, in which your current username is displayed.
+This app takes you through a flow of screens, allowing you to login, or create a username and password. From either page you are then directed to a dashboard page, in which your current username is displayed. You can then add facilities and assets, or dispose of assets. You can also see a full report filtered off of facilities and dates.
 
 Files:
 app.py - Flask app to be run via mod_wsgi
