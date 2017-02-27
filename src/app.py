@@ -281,6 +281,6 @@ def asset_report():
 
 		conn.commit()
 		
-		return redirect(url_for('add_report'))
+		return redirect(url_for('asset_report'))
 
 
