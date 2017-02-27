@@ -235,10 +235,9 @@ def dispose_asset():
 
 @app.route('/asset_report', methods=('GET', 'POST'))
 def asset_report():
-
-	session['asset_report'] = []
-
 	if request.method=='GET':
+
+		session['asset_report'] = []
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
@@ -271,7 +270,6 @@ def asset_report():
 		report_results = cur.fetchall()
 
 		report = []
-
 		for result in report_results:
 			row = dict()
 			row['asset_tag'] = result[0]
@@ -291,6 +289,6 @@ def asset_report():
 		for facility in all_facilities:
 			facilities.append(facility[0])
 		
-		return render_template('asset_report.html')
+		return render_template('asset_report.html', facilities=facilities)
 
 
