@@ -265,7 +265,7 @@ def asset_report():
 			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=aa.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE aa.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s);"
 
 		else:
-			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=a.facility_fk WHERE at.arrival<=%s AND (at.departure>=%s OR at.departure IS NULL) AND f.common_name=%s;"
+			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s) AND f.common_name=%s;"
 
 		SQL = "SELECT * FROM assets WHERE asset_tag=%s;"
 		cur.execute(SQL, (asset_tag,))
