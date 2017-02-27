@@ -26,7 +26,7 @@ def login():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		SQL = "SELECT password FROM users WHERE username=%s;"
+		SQL = "SELECT password, role_fk FROM users WHERE username=%s;"
 		cur.execute(SQL, (username,))
 		user = cur.fetchone()
 
