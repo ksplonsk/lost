@@ -204,11 +204,9 @@ def dispose_asset():
 
 		return render_template('dispose_asset.html', assets=assets)
 
-	if request.method=='POST' and 'common_name' in request.form and 'asset_tag' in request.form and 'description' in request.form and 'arrival' in request.form:
-		common_name = request.form['common_name']
+	if request.method=='POST' and 'asset_tag' in request.form and 'disposal_date' in request.form:
 		asset_tag = request.form['asset_tag']
-		description = request.form['description']
-		arrival = request.form['arrival']
+		disposal_date = request.form['disposal_date']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
@@ -217,15 +215,19 @@ def dispose_asset():
 		cur.execute(SQL, (asset_tag,))
 		asset = cur.fetchone()
 
-		# if asset already exists, go to asset already exists page
-		if asset != None:
-			return render_template('asset_already_exists.html', asset_tag=asset_tag)
+		# if asset doesn't exist, cannot be disposed of
+		if asset == None:
+			return render_template('asset_dispose_error.html', error_reason="asset does not exist, and therfore cannot be disposed of.")
 
-		SQL = "INSERT INTO assets (asset_pk, asset_tag, description) VALUES (DEFAULT, %s, %s);"
-		cur.execute(SQL, (asset_tag,description))
+		# if asset has already been disposed of, cannot be disposed again
+		if asset[3]:
+			return render_template('asset_dispose_error.html', error_reason="asset has already been disposed of.")
 
-		SQL = "INSERT INTO asset_at (asset_fk, facility_fk, arrival) VALUES ((SELECT asset_pk FROM assets WHERE (asset_tag = %s)), (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s);"
-		cur.execute(SQL, (asset_tag,common_name,arrival))
+		SQL = "UPDATE assets SET disposed=True WHERE asset_tag=%s;"
+		cur.execute(SQL, (asset_tag,))
+
+		SQL = "UPDATE asset_at SET departure=%s WHERE departure IS NULL FROM asset_at WHERE asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s);"
+		cur.execute(SQL, (disposal_date,asset_tag))
 
 		conn.commit()
 		
