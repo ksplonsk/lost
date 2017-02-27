@@ -248,7 +248,7 @@ def asset_report():
 		for facility in all_facilities:
 			facilities.append(facility[0])
 
-		return render_template('asset_report.html', assets=assets, facilities=facilities)
+		return render_template('asset_report.html', facilities=facilities)
 
 	if request.method=='POST' and 'common_name' in request.form and 'report_date' in request.form:
 		common_name = request.form['common_name']
