@@ -231,6 +231,6 @@ def dispose_asset():
 
 		conn.commit()
 		
-		return redirect(url_for('add_asset'))
+		return redirect(url_for('dispose_asset'))
 
 
