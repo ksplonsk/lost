@@ -188,8 +188,8 @@ def add_asset():
 def dispose_asset():
 	if request.method=='GET':
 
-		if not session['logged_in'] or session['role'] != 'Logistics Officer':
-			return render_template('asset_dispose_error.html', error_reason="only Logistics Officers cannot dispose of assets.")
+		# if not session['logged_in'] or session['role'] != 'Logistics Officer':
+		# 	return render_template('asset_dispose_error.html', error_reason="only Logistics Officers cannot dispose of assets.")
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
