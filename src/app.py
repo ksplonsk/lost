@@ -217,7 +217,7 @@ def dispose_asset():
 
 		# if asset doesn't exist, cannot be disposed of
 		if asset == None:
-			return render_template('asset_dispose_error.html', error_reason="asset does not exist, and therfore cannot be disposed of.")
+			return render_template('asset_dispose_error.html', error_reason="that asset does not exist and therfore cannot be disposed of.")
 
 		# if asset has already been disposed of, cannot be disposed again
 		if asset[3]:
@@ -227,7 +227,7 @@ def dispose_asset():
 		cur.execute(SQL, (asset_tag,))
 
 		SQL = "UPDATE asset_at SET departure=%s WHERE departure IS NULL FROM asset_at WHERE asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s) AND asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s);"
-		cur.execute(SQL, (disposal_date,asset_tag))
+		cur.execute(SQL, (disposal_date,asset_tag,asset_tag))
 
 		conn.commit()
 		
