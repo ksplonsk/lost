@@ -258,11 +258,9 @@ def asset_report():
 
 		return render_template('add_asset.html', assets=assets, facilities=facilities)
 
-	if request.method=='POST' and 'common_name' in request.form and 'arrival' in request.form:
+	if request.method=='POST' and 'common_name' in request.form and 'report_date' in request.form:
 		common_name = request.form['common_name']
-		asset_tag = request.form['asset_tag']
-		description = request.form['description']
-		arrival = request.form['arrival']
+		report_date = request.form['report_date']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
