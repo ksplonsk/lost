@@ -270,8 +270,27 @@ def asset_report():
 		cur.execute(SQL, (report_date,report_date,common_name))
 		report_results = cur.fetchall()
 
+		report = []
 
+		for result in report_results:
+			row = dict()
+			row['asset_tag'] = result[0]
+			row['description'] = result[1]
+			row['facility'] = result[2]
+			row['arrival'] = result[3]
+			row['departure'] = result[4]
+			report.append(row)
+
+		session['report'] = report
+
+		SQL = "SELECT common_name FROM facilities;"
+		cur.execute(SQL)
+		all_facilities = cur.fetchall()
+
+		facilities = ['All']
+		for facility in all_facilities:
+			facilities.append(facility[0])
 		
-		return redirect(url_for('asset_report'))
+		return render_template('asset_report.html')
 
 
