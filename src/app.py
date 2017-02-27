@@ -235,6 +235,9 @@ def dispose_asset():
 
 @app.route('/asset_report', methods=('GET', 'POST'))
 def asset_report():
+
+	session['asset_report'] = []
+
 	if request.method=='GET':
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
@@ -257,21 +260,18 @@ def asset_report():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
+		SQL = ''
+		if common_name == 'All':
+			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=aa.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE aa.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s);"
+
+		else:
+			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=a.facility_fk WHERE at.arrival<=%s AND (at.departure>=%s OR at.departure IS NULL) AND f.common_name=%s;"
+
 		SQL = "SELECT * FROM assets WHERE asset_tag=%s;"
 		cur.execute(SQL, (asset_tag,))
 		asset = cur.fetchone()
 
-		# if asset already exists, go to asset already exists page
-		if asset != None:
-			return render_template('asset_already_exists.html', asset_tag=asset_tag)
 
-		SQL = "INSERT INTO assets (asset_pk, asset_tag, description) VALUES (DEFAULT, %s, %s);"
-		cur.execute(SQL, (asset_tag,description))
-
-		SQL = "INSERT INTO asset_at (asset_fk, facility_fk, arrival) VALUES ((SELECT asset_pk FROM assets WHERE (asset_tag = %s)), (SELECT facility_pk FROM facilities WHERE (common_name = %s)), %s);"
-		cur.execute(SQL, (asset_tag,common_name,arrival))
-
-		conn.commit()
 		
 		return redirect(url_for('asset_report'))
 
