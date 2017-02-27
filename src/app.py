@@ -26,7 +26,7 @@ def login():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		SQL = "SELECT * FROM users WHERE username=%s;"
+		SQL = "SELECT password FROM users WHERE username=%s;"
 		cur.execute(SQL, (username,))
 		user = cur.fetchone()
 
@@ -35,7 +35,7 @@ def login():
 			return render_template('unmatched.html', username=username)
 
 		# if username and password don't exist, go back to unmatched page
-		if user[2] == password:
+		if user[0] == password:
 			session['username'] = username
 			session['logged_in'] = True
 			SQL = "SELECT * FROM roles WHERE role_pk=%d;"
@@ -226,8 +226,8 @@ def dispose_asset():
 		SQL = "UPDATE assets SET disposed=True WHERE asset_tag=%s;"
 		cur.execute(SQL, (asset_tag,))
 
-		# SQL = "UPDATE asset_at SET departure=%s WHERE departure IS NULL FROM asset_at WHERE asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s) AND asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s);"
-		# cur.execute(SQL, (disposal_date,asset_tag,asset_tag))
+		SQL = "UPDATE asset_at SET departure=%s WHERE (departure IS NULL AND asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
+        cur.execute(SQL, (disposal_date, asset_tag))
 
 		conn.commit()
 		
