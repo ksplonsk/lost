@@ -38,7 +38,7 @@ def login():
 		if user[0] == password:
 			session['username'] = username
 			session['logged_in'] = True
-			SQL = "SELECT * FROM roles WHERE role_pk=%d;"
+			SQL = "SELECT * FROM roles WHERE role_pk=%s;"
 			cur.execute(SQL, (user[1],))
 			role = cur.fetchone()
 			session['role'] = role[1]
