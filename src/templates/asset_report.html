@@ -12,6 +12,28 @@
 			Date<br>
 			<input type="date" name="report_date" value="2017-01-01" /><br><br>
 			<br><br><br>
+
+		<a href="{{url_for('dashboard')}}">Dashboard</a>
+		{% if session.asset_report != [] %}
+		<table border="1">
+			<tr>
+				<th>Asset Tag</th>
+				<th>Asset Description</th>
+				<th>Asset Location</th>
+				<th>Arrive Date</th>
+				<th>Depart Date</th>
+			</tr>
+			{% for entry in session.asset_report %}
+			<tr>
+				<td>{{entry.asset_tag}}</td>
+				<td>{{entry.description}}</td>
+				<td>{{entry.facility}}</td>
+				<td>{{entry.arrive_dt}}</td>
+				<td>{{entry.depart_dt}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% endif %}
 			<input type="submit" name="submit" value="Get Report" />
 		</form>
 	</body>
