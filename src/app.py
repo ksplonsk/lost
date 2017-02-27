@@ -277,7 +277,7 @@ def asset_report():
 			row['departure'] = result[4]
 			report.append(row)
 
-		session['report'] = report
+		session['asset_report'] = report
 
 		SQL = "SELECT common_name FROM facilities;"
 		cur.execute(SQL)
