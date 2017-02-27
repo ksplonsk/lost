@@ -11,12 +11,9 @@
 			</select><br><br>
 			Date<br>
 			<input type="date" name="report_date" value="2017-01-01" /><br><br>
-			<br><br><br>
 			<input type="submit" name="submit" value="Get Report" />
 		</form>
 		<br><br>
-
-		<a href="{{url_for('dashboard')}}">Dashboard</a>
 		{% if session.asset_report != [] %}
 		<table border="1">
 			<tr>
@@ -37,5 +34,7 @@
 			{% endfor %}
 		</table>
 		{% endif %}
+
+		<a href="{{url_for('dashboard')}}">Dashboard</a>
 	</body>
 </html>
