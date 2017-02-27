@@ -226,11 +226,11 @@ def dispose_asset():
 		SQL = "UPDATE assets SET disposed=True WHERE asset_tag=%s;"
 		cur.execute(SQL, (asset_tag,))
 
-		SQL = "UPDATE asset_at SET departure=%s WHERE departure IS NULL FROM asset_at WHERE asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s);"
+		SQL = "UPDATE asset_at SET departure=%s WHERE departure IS NULL FROM asset_at WHERE asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s) AND asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s);"
 		cur.execute(SQL, (disposal_date,asset_tag))
 
 		conn.commit()
 		
-		return redirect(url_for('dispose_asset'))
+		return redirect(url_for('dashboard'))
 
 
