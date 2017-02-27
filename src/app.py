@@ -262,14 +262,13 @@ def asset_report():
 
 		SQL = ''
 		if common_name == 'All':
-			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=aa.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE aa.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s);"
+			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s);"
 
 		else:
 			SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s) AND f.common_name=%s;"
 
-		SQL = "SELECT * FROM assets WHERE asset_tag=%s;"
-		cur.execute(SQL, (asset_tag,))
-		asset = cur.fetchone()
+		cur.execute(SQL, (report_date,report_date,common_name))
+		report_results = cur.fetchall()
 
 
 		
