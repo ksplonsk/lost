@@ -227,7 +227,7 @@ def dispose_asset():
 		cur.execute(SQL, (asset_tag,))
 
 		SQL = "UPDATE asset_at SET departure=%s WHERE (departure IS NULL AND asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
-        cur.execute(SQL, (disposal_date, asset_tag))
+		cur.execute(SQL, (disposal_date, asset_tag))
 
 		conn.commit()
 		
