@@ -260,10 +260,10 @@ def asset_report():
 		cur = conn.cursor()
 
 		if common_name == 'All':
-			cur.execute("SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s);", report_date,report_date)
+			cur.execute("SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s);", (report_date,report_date))
 
 		else:
-			cur.execute("SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s) AND f.common_name=%s;", report_date,report_date,common_name)
+			cur.execute("SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk WHERE at.arrival<=%s AND (at.departure IS NULL OR at.departure>=%s) AND f.common_name=%s;", (report_date,report_date,common_name))
 
 		report_results = cur.fetchall()
 
