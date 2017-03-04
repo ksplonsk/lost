@@ -298,20 +298,54 @@ def asset_report():
 		
 		return render_template('asset_report.html', facilities=facilities)
 
-@app.route('transfer_report')
+@app.route('transfer_report', methods=('GET', 'POST'))
 def transfer_report():
 	return render_template('transfer_report.html')
 
-@app.route('transfer_req')
+@app.route('transfer_req', methods=('GET', 'POST'))
 def transfer_req():
-	return render_template('transfer_req.html')
+	if request.method=='GET':
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
 
-@app.route('approve_req')
+		# build up list of all assets
+		SQL = "SELECT asset_tag FROM assets WHERE disposed=false;"
+		cur.execute(SQL)
+		all_assets = cur.fetchall()
+
+		assets = []
+		for asset in all_assets:
+			assets.append(asset[0])
+
+		# build up list of all facilities
+		SQL = "SELECT common_name FROM facilities;"
+		cur.execute(SQL)
+		all_facilities = cur.fetchall()
+
+		facilities = []
+		for facility in all_facilities:
+			facilities.append(facility[0])
+
+		return render_template('transfer_req.html', assets=assets, facilities=facilities)
+
+@app.route('approve_req', methods=('GET', 'POST'))
 def approve_req():
 	return render_template('approve_req.html')
 
-@app.route('update_transit')
+@app.route('update_transit' methods=('GET', 'POST'))
 def update_transit():
 	return render_template('update_transit.html')
+
+@app.route('logout', methods=('GET', 'POST'))
+def logout():
+
+	if request.method=='GET':
+		return render_template('logout.html')
+
+	if request.method=='POST':
+		session['username'] = ''
+		session['logged_in'] = False
+		session['role'] = ''
+		return redirect(url_for('login'))
 
 
