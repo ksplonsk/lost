@@ -332,7 +332,7 @@ def transfer_req():
 def approve_req():
 	return render_template('approve_req.html')
 
-@app.route('update_transit' methods=('GET', 'POST'))
+@app.route('update_transit', methods=('GET', 'POST'))
 def update_transit():
 	return render_template('update_transit.html')
 
