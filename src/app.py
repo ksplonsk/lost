@@ -351,6 +351,7 @@ def transfer_req():
 		# add transfer request into DB
 		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, CURRENT_TIMESTAMP, %s, %s, %s);"
 		cur.execute(SQL, (requester_fk,source_facility,destination,asset_fk))
+		conn.commit()
 
 		return redirect(url_for('transfer_req_success'))
 
