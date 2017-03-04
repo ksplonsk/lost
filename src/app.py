@@ -298,4 +298,12 @@ def asset_report():
 		
 		return render_template('asset_report.html', facilities=facilities)
 
+@app.route('transfer_report')
+def transfer_report():
+	return render_template('transfer_report.html')
+
+@app.route('transfer_req')
+def transfer_req():
+	return render_template('transfer_req.html')
+
 
