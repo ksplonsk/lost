@@ -5,7 +5,46 @@
 		<a href="{{url_for('transfer_report')}}"> Transfer Report</a><br>
 		<a href="{{url_for('add_asset')}}"> Add Asset</a><br>
 		<a href="{{url_for('add_facility')}}"> Add Facility</a><br>
-		<a href="{{url_for('dispose_asset')}}"> Dispose Asset</a><br>
-		<a href="{{url_for('transfer_req')}}"> Transfer Request</a><br>
+		{% if session.role == 'Logistics Officer' %}
+			<a href="{{url_for('dispose_asset')}}"> Dispose Asset</a><br>
+			<a href="{{url_for('transfer_req')}}"> Transfer Request</a><br>
+		{% endif %}
+
+		{% if session.role == 'Logistics Officer' %}
+		{% if session.asset_report != [] %}
+		<table border="1">
+			<tr>
+				<th>Asset Tag</th>
+				<th>Asset Description</th>
+				<th>Asset Location</th>
+			</tr>
+			{% for entry in session.asset_report %}
+			<tr>
+				<td>{{entry.asset_tag}}</td>
+				<td>{{entry.description}}</td>
+				<td>{{entry.facility}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% endif %}
+		{% endif %}
+
+		{% if session.role == 'Facilities Officer' %}
+		{% if session.asset_report != [] %}
+		<table border="1">
+			<tr>
+				<th>Transfer Request</th>
+				<th>Request time</th>
+			</tr>
+			{% for entry in session.asset_report %}
+			<tr>
+				<td>{{entry.asset_fk}}</td>
+				<td>{{entry.request_dt}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% endif %}
+		{% endif %}
+
 	</body>
 </html>
