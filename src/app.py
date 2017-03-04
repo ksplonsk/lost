@@ -108,8 +108,14 @@ def dashboard():
 		row['destination_facility'] = result[2]
 		requests.append(row)
 
-	session['requests'] = requests
+	row = dict()
+	row['asset_tag'] = 'asset'
+	row['source_facility'] = 'source'
+	row['destination_facility'] = 'dest'
+	requests.append(row)
 
+
+	session['requests'] = requests
 
 	return render_template('dashboard.html')
 
