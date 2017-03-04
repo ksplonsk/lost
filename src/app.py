@@ -335,9 +335,6 @@ def transfer_req():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		(SELECT asset_pk FROM assets WHERE (asset_tag = %s))
-		(SELECT facility_pk FROM facilities WHERE (common_name = %s))
-
 		cur.execute("SELECT user_pk FROM users WHERE (username = %s)", (session['username'],))
 		requester_fk = cur.fetchone()
 
