@@ -27,24 +27,27 @@
 			{% endfor %}
 		</table>
 		{% endif %}
-		{% endif %}
+		{% endif %} -->
 
 		{% if session.role == 'Facilities Officer' %}
-		{% if session.asset_report != [] %}
+		{% if session.requests != [] %}
+		Transfer requests needing approval:
 		<table border="1">
 			<tr>
-				<th>Transfer Request</th>
-				<th>Request time</th>
+				<th>Asset</th>
+				<th>Source</th>
+				<th>Destination</th>
 			</tr>
-			{% for entry in session.asset_report %}
+			{% for request in session.requests %}
 			<tr>
-				<td>{{entry.asset_fk}}</td>
-				<td>{{entry.request_dt}}</td>
+				<td>{{request.asset_tag}}</td>
+				<td>{{request.source_facility}}</td>
+				<td>{{request.destination_facility}}</td>
 			</tr>
 			{% endfor %}
 		</table>
 		{% endif %}
-		{% endif %} -->
+		{% endif %}
 
 	</body>
 </html>
