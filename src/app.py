@@ -378,7 +378,7 @@ def transfer_req():
 
 
 		# add transfer request into DB
-		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, GETDATE() AS timestamp, %s, %s, %s);"
+		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, GETDATE, %s, %s, %s);"
 		cur.execute(SQL, (requester_fk,source_facility,destination,asset_fk))
 		conn.commit()
 
@@ -390,12 +390,27 @@ def transfer_req():
 def approve_req():
 
 	if session['role'] != 'Facilities Officer':
+		session['approval_tag'] = 'larry'
 		return redirect(url_for('req_approve_error'))
 
 	if request.method=='GET':
 		return render_template('approve_req.html')
 
-	#if request.method=='POST':
+	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form):
+		asset_tag = request.form['asset_tag']
+
+		if request.form['approve'] != None:
+			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approver_dt=GETDATE WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
+			cur.execute(SQL, (session['username'], asset_tag))
+			conn.commit()
+
+		if request.form['reject'] != None:
+			SQL = "DELETE FROM transfers WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
+			cur.execute(SQL, (asset_tag,))
+			conn.commit()
+		
+		return redirect(url_for('dashboard'))
+
 
 @app.route('/update_transit', methods=('GET', 'POST'))
 def update_transit():

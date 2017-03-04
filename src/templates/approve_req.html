@@ -1,7 +1,7 @@
 <html>
-	<body><h2>Approve Request</h2>Welcome to the transfer request approval page. Please choose to either approve or reject asset {{asset_tag}}<br><br>
+	<body><h2>Approve Request</h2>Welcome to the transfer request approval page. Please choose to either approve or reject asset {{session.approval_tag}}<br><br>
 		<form action="{{url_for('approve_req')}}" method="POST">
-			<input type="hidden" name="asset_tag" value="{{asset_tag}}">
+			<input type="hidden" name="asset_tag" value="{{session.approval_tag}}">
 			<input type="submit" name="approve" value="Approve" /><br><br>
 			<input type="submit" name="reject" value="Reject" /><br><br>
 		</form>
