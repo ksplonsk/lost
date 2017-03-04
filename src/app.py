@@ -306,4 +306,12 @@ def transfer_report():
 def transfer_req():
 	return render_template('transfer_req.html')
 
+@app.route('approve_req')
+def approve_req():
+	return render_template('approve_req.html')
+
+@app.route('update_transit')
+def update_transit():
+	return render_template('update_transit.html')
+
 
