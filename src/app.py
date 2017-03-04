@@ -94,7 +94,8 @@ def dashboard():
 	conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 	cur = conn.cursor()
 
-	SQL = "SELECT a.asset_tag, sf.common_name, df.common_name FROM transfers AS t INNER JOIN facilities AS sf ON sf.facility_pk=t.source_fk INNER JOIN facilities AS df ON df.facility_pk=t.destination_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE t.approver_fk=NULL"
+	# WHERE t.approver_fk=NULL
+	SQL = "SELECT a.asset_tag, sf.common_name, df.common_name FROM transfers AS t INNER JOIN facilities AS sf ON sf.facility_pk=t.source_fk INNER JOIN facilities AS df ON df.facility_pk=t.destination_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk"
 	cur.execute(SQL)
 
 	approval_results = cur.fetchall()
