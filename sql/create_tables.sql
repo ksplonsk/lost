@@ -36,7 +36,7 @@ departure timestamp default null -- departure time of asset
 
 CREATE TABLE transfers (
 transfer_pk serial primary key, -- chose to use a numeric pk, I am more comfortable using numeric pk's
-requester_fk integer REFERENCES users (user_pk) not null. -- connects user that is reqquester to transfers
+requester_fk integer REFERENCES users (user_pk) not null, -- connects user that is reqquester to transfers
 request_dt timestamp, -- time of request made
 source_fk integer REFERENCES facilities (facility_pk) not null, -- connects source facility to transfers
 destination_fk integer REFERENCES facilities (facility_pk) not null, -- connects destination facility to transfers

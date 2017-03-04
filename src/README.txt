@@ -19,3 +19,7 @@ templates/
 	asset_report.html- page that allows you to select a facility and a date to see a report based on your specifications
 	dispose_asset.html- page that allows you to select an asset to dispose of
 	facility_already_exists.html- page that shows when you try to add a facility that already exists
+	transfer_report.html- page showing report of transfers
+	transfer_req.html- page allowing you to initiate transfer requests
+	approve_req.html- page allowing you to approve and complete transfer requests
+	update_transit.html- page allowing you to set load and unload times of assets in transit
