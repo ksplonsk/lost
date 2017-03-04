@@ -328,6 +328,37 @@ def transfer_req():
 
 		return render_template('transfer_req.html', assets=assets, facilities=facilities)
 
+	if request.method=='POST' and 'asset' in request.form and 'destination_facility' in request.form:
+		asset = request.form['asset']
+		destination_facility = request.form['destination_facility']
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		(SELECT asset_pk FROM assets WHERE (asset_tag = %s))
+		(SELECT facility_pk FROM facilities WHERE (common_name = %s))
+
+		cur.execute("SELECT user_pk FROM users WHERE (username = %s)", (session['username'],))
+		requester_fk = cur.fetchone()
+
+		cur.execute("SELECT asset_pk FROM assets WHERE (asset_tag = %s)", (asset,))
+		asset_fk = cur.fetchone()
+
+		cur.execute("SELECT facility_fk FROM asset_at WHERE (asset_fk = %s)", (asset_fk,))
+		source_facility = cur.fetchone()
+
+		cur.execute("SELECT facility_pk FROM facilities WHERE (common_name = %s)", (destination_facility,))
+		destination = cur.fetchone()
+
+
+		# add transfer request into DB
+		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, CURRENT_TIMESTAMP, %s, %s, %s);"
+		cur.execute(SQL, (requester_fk,source_facility,destination,asset_fk))
+
+		return redirect(url_for('transfer_req_success'))
+
+
+
 @app.route('/approve_req', methods=('GET', 'POST'))
 def approve_req():
 	return render_template('approve_req.html')
@@ -347,5 +378,9 @@ def logout():
 		session['logged_in'] = False
 		session['role'] = ''
 		return redirect(url_for('login'))
+
+@app.route('/transfer_req_success')
+def transfer_req_success():
+	return render_template('transfer_req_success.html')
 
 
