@@ -378,7 +378,7 @@ def transfer_req():
 
 
 		# add transfer request into DB
-		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, CURRENT_TIMESTAMP, %s, %s, %s);"
+		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, GETDATE(), %s, %s, %s);"
 		cur.execute(SQL, (requester_fk,source_facility,destination,asset_fk))
 		conn.commit()
 
@@ -388,7 +388,14 @@ def transfer_req():
 
 @app.route('/approve_req', methods=('GET', 'POST'))
 def approve_req():
-	return render_template('approve_req.html')
+
+	if session['role'] != 'Facilities Officer':
+		return redirect(url_for('req_approve_error'))
+
+	if request.method=='GET':
+		return render_template('approve_req.html')
+
+	#if request.method=='POST':
 
 @app.route('/update_transit', methods=('GET', 'POST'))
 def update_transit():
@@ -409,5 +416,9 @@ def logout():
 @app.route('/transfer_req_success')
 def transfer_req_success():
 	return render_template('transfer_req_success.html')
+
+@app.route('/req_approve_error', methods=('GET', 'POST'))
+def req_approve_error():
+	return render_template('req_approve_error.html')
 
 
