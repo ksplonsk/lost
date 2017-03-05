@@ -94,8 +94,7 @@ def dashboard():
 	conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 	cur = conn.cursor()
 
-	# WHERE approver_fk=NULL
-	SQL = "SELECT a.asset_tag, sf.common_name, df.common_name FROM transfers AS t INNER JOIN facilities AS sf ON sf.facility_pk=t.source_fk INNER JOIN facilities AS df ON df.facility_pk=t.destination_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE t.approver_fk IS NULL"
+	SQL = "SELECT t.transfer_pk, a.asset_tag, sf.common_name, df.common_name FROM transfers AS t INNER JOIN facilities AS sf ON sf.facility_pk=t.source_fk INNER JOIN facilities AS df ON df.facility_pk=t.destination_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE t.approver_fk IS NULL"
 	cur.execute(SQL)
 
 	approval_results = cur.fetchall()
@@ -104,17 +103,11 @@ def dashboard():
 	requests = []
 	for result in approval_results:
 		row = dict()
-		row['asset_tag'] = result[0]
-		row['source_facility'] = result[1]
-		row['destination_facility'] = result[2]
+		row['transfer_pk'] = result[0]
+		row['asset_tag'] = result[1]
+		row['source_facility'] = result[2]
+		row['destination_facility'] = result[3]
 		requests.append(row)
-
-	row = dict()
-	row['asset_tag'] = 'asset'
-	row['source_facility'] = 'source'
-	row['destination_facility'] = 'dest'
-	requests.append(row)
-
 
 	session['requests'] = requests
 

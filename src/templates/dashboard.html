@@ -40,11 +40,11 @@
 				<th>Destination</th>
 			</tr>
 			{% for request in session.requests %}
-			<a href="{{url_for('approve_req')}}"><tr>
-				<td>{{request.asset_tag}}</td>
-				<td>{{request.source_facility}}</td>
-				<td>{{request.destination_facility}}</td>
-			</tr></a>
+			<tr>
+				<td><a href="{{url_for('approve_req')}}?transfer_pk={{request.transfer_pk}}">{{request.asset_tag}}</a></td>
+				<td><a href="{{url_for('approve_req')}}?transfer_pk={{request.transfer_pk}}">{{request.source_facility}}</a></td>
+				<td><a href="{{url_for('approve_req')}}?transfer_pk={{request.transfer_pk}}">{{request.destination_facility}}</a></td>
+			</tr>
 			{% endfor %}
 		</table>
 		{% endif %}
