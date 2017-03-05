@@ -94,6 +94,22 @@ def dashboard():
 	conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 	cur = conn.cursor()
 
+	SQL = "SELECT it.in_transit_pk, a.asset_tag, a.description FROM in_transit AS it INNER JOIN transfers AS t ON t.transfer_pk=it.transfer_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE (it.load_dt IS NULL OR it.unload_dt IS NULL)"
+	cur.execute(SQL)
+
+	transit_results = cur.fetchall()
+
+	# build up transit row dictionaries
+	transits = []
+	for result in transit_results:
+		row = dict()
+		row['in_transit_pk'] = result[0]
+		row['asset_tag'] = result[1]
+		row['description'] = result[2]
+		transits.append(row)
+
+	session['transits'] = transits
+
 	SQL = "SELECT t.transfer_pk, a.asset_tag, sf.common_name, df.common_name FROM transfers AS t INNER JOIN facilities AS sf ON sf.facility_pk=t.source_fk INNER JOIN facilities AS df ON df.facility_pk=t.destination_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE t.approver_fk IS NULL"
 	cur.execute(SQL)
 
@@ -403,7 +419,7 @@ def approve_req():
 			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approved_dt=CURRENT_TIMESTAMP WHERE (transfer_pk=CAST(%s as integer))"
 			cur.execute(SQL, (session['username'], transfer_pk))
 
-			SQL = "INSERT INTO in_transit (transfer_fk, load_dt, unload_dt) VALUES (%s, NULL, NULL)"
+			SQL = "INSERT INTO in_transit (in_transit_pk, transfer_fk, load_dt, unload_dt) VALUES (DEFAULT, %s, DEFAULT, DEFAULT)"
 			cur.execute(SQL, (transfer_pk,))
 			conn.commit()
 
@@ -434,9 +450,5 @@ def logout():
 @app.route('/transfer_req_success')
 def transfer_req_success():
 	return render_template('transfer_req_success.html')
-
-@app.route('/req_approve_error', methods=('GET', 'POST'))
-def req_approve_error():
-	return render_template('req_approve_error.html')
 
 

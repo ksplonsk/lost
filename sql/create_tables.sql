@@ -46,9 +46,10 @@ approved_dt timestamp default null -- time of request approved
 );
 
 CREATE TABLE in_transit (
+in_transit_pk serial primary key, -- chose to use a numeric pk, I am more comfortable using numeric pk's
 transfer_fk integer REFERENCES transfers (transfer_pk) not null, -- connects transfers to in_transit
-load_dt timestamp, -- time of loading
-unload_dt timestamp -- time of unloading
+load_dt timestamp default null, -- time of loading
+unload_dt timestamp default null -- time of unloading
 );
 
 

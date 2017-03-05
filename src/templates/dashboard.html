@@ -11,24 +11,23 @@
 		{% endif %}
 		<a href="{{url_for('logout')}}"> Logout</a><br>
 
-		<!-- {% if session.role == 'Logistics Officer' %}
-		{% if session.asset_report != [] %}
+		{% if session.role == 'Logistics Officer' %}
+		{% if session.transits != [] %}
+		Transits needing load and unload times set:<br><br>
 		<table border="1">
 			<tr>
-				<th>Asset Tag</th>
-				<th>Asset Description</th>
-				<th>Asset Location</th>
+				<th>Asset</th>
+				<th>Description</th>
 			</tr>
-			{% for entry in session.asset_report %}
+			{% for transit in session.transits %}
 			<tr>
-				<td>{{entry.asset_tag}}</td>
-				<td>{{entry.description}}</td>
-				<td>{{entry.facility}}</td>
+				<td><a href="{{url_for('update_transit')}}?in_transit_pk={{transit.in_transit_pk}}&transit_tag={{transit.asset_tag}}">{{transit.asset_tag}}</td>
+				<td>{{transit.description}}</td>
 			</tr>
 			{% endfor %}
 		</table>
 		{% endif %}
-		{% endif %} -->
+		{% endif %}
 
 		<br>
 		{% if session.role == 'Facilities Officer' %}
