@@ -386,14 +386,14 @@ def approve_req():
 		return redirect(url_for('req_approve_error'))
 
 	if request.method=='GET':
-		if not request.args.get('transfer_pk') or not request.args.get('approval_tag'):
+		if not 'transfer_pk' in request.args or not 'approval_tag' in request.args:
 			return # TODO: make an error
 
 		transfer_pk = request.args['transfer_pk']
 		approval_tag = request.args['approval_tag']
 		return render_template('approve_req.html', transfer_pk=transfer_pk, approval_tag=approval_tag)
 
-	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form) and transfer_pk in request.form:
+	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form) and 'transfer_pk' in request.form:
 		transfer_pk = request.form['transfer_pk']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
