@@ -383,11 +383,11 @@ def transfer_req():
 def approve_req():
 
 	if session['role'] != 'Facilities Officer':
-		return redirect(url_for('req_approve_error'))
+		return render_template('req_approve_error.html', error_reason='only Facilities Officers can approve transfer requests.')
 
 	if request.method=='GET':
 		if not 'transfer_pk' in request.args or not 'approval_tag' in request.args:
-			return # TODO: make an error
+			return render_template('req_approve_error.html', error_reason='you must access the approve request page through the dashboard.')
 
 		transfer_pk = request.args['transfer_pk']
 		approval_tag = request.args['approval_tag']
