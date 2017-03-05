@@ -373,18 +373,21 @@ def transfer_req():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
+		# get requester from current logged in user
 		cur.execute("SELECT user_pk FROM users WHERE (username = %s)", (session['username'],))
 		requester_fk = cur.fetchone()
 
+		# get asset that is being requested to be transferred
 		cur.execute("SELECT asset_pk FROM assets WHERE (asset_tag = %s)", (asset,))
 		asset_fk = cur.fetchone()
 
+		# get facility asset is at
 		cur.execute("SELECT facility_fk FROM asset_at WHERE (asset_fk = %s)", (asset_fk,))
 		source_facility = cur.fetchone()
 
+		# get facility asset is being transferred to
 		cur.execute("SELECT facility_pk FROM facilities WHERE (common_name = %s)", (destination_facility,))
 		destination = cur.fetchone()
-
 
 		# add transfer request into DB
 		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, CURRENT_TIMESTAMP, %s, %s, %s);"
@@ -398,9 +401,11 @@ def transfer_req():
 @app.route('/approve_req', methods=('GET', 'POST'))
 def approve_req():
 
+	# check to see if logged in user is a Facilities Officer (only Facilities Officers can approve tranfer requests)
 	if session['role'] != 'Facilities Officer':
 		return render_template('req_approve_error.html', error_reason='only Facilities Officers can approve transfer requests.')
 
+	# only allow users to access approve_req page through the dashboard
 	if request.method=='GET':
 		if not 'transfer_pk' in request.args or not 'approval_tag' in request.args:
 			return render_template('req_approve_error.html', error_reason='you must access the approve request page through the dashboard.')
@@ -415,6 +420,7 @@ def approve_req():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
+		# get information if approve button is clicked, insert into in_transit table
 		if request.form.get('approve'):
 			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approved_dt=CURRENT_TIMESTAMP WHERE (transfer_pk=CAST(%s as integer))"
 			cur.execute(SQL, (session['username'], transfer_pk))
@@ -423,6 +429,7 @@ def approve_req():
 			cur.execute(SQL, (transfer_pk,))
 			conn.commit()
 
+		# get information if reject button is clicked
 		if request.form.get('reject'):
 			SQL = "DELETE FROM transfers WHERE (transfer_pk=CAST(%s as integer))"
 			cur.execute(SQL, (transfer_pk,))
@@ -433,9 +440,12 @@ def approve_req():
 
 @app.route('/update_transit', methods=('GET', 'POST'))
 def update_transit():
+
+	# check to see if logged in user is a Logistics Officer (only Logistics Officer can approve tranfer requests)
 	if session['role'] != 'Logistics Officer':
 		return render_template('transit_error.html', error_reason='only Logistics Officers can set load and unload times.')
 
+	# only allow users to access update_transit page through the dashboard
 	if request.method=='GET':
 		if not 'in_transit_pk' in request.args or not 'transit_tag' in request.args:
 			return render_template('transit_error.html', error_reason='you must access the update transit page through the dashboard.')
@@ -454,13 +464,16 @@ def update_transit():
 		cur.execute(SQL, (in_transit_pk,))
 		transit_record = cur.fetchone()
 
+		# check if unload time has already been set
 		if transit_record[0] != None:
 			return render_template('transit_error.html', error_reason='there is already an unload time set.')
 
+		# update in_transit table if load time is set
 		if 'load' in request.form and request.form['load'] != '':
 			SQL = "UPDATE in_transit SET load_dt=%s WHERE in_transit_pk=CAST(%s as integer)"
 			cur.execute(SQL, (request.form['load'], in_transit_pk))
 		
+		# update in_transit table if unload time is set
 		if 'unload' in request.form and request.form['unload'] != '':
 			SQL = "UPDATE in_transit SET unload_dt=%s WHERE in_transit_pk=CAST(%s as integer)"
 			cur.execute(SQL, (request.form['unload'], in_transit_pk))
@@ -476,6 +489,7 @@ def logout():
 	if request.method=='GET':
 		return render_template('logout.html')
 
+	# clear out logged in user info
 	if request.method=='POST':
 		session['username'] = ''
 		session['logged_in'] = False
