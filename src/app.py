@@ -450,11 +450,11 @@ def update_transit():
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
-		if 'load' in request.form:
+		if 'load' in request.form and request.form['load'] != '':
 			SQL = "UPDATE in_transit SET load_dt=%s WHERE in_transit_pk=CAST(%s as integer)"
 			cur.execute(SQL, (request.form['load'], in_transit_pk))
 		
-		if 'unload' in request.form:
+		if 'unload' in request.form and request.form['unload'] != '':
 			SQL = "UPDATE in_transit SET unload_dt=%s WHERE in_transit_pk=CAST(%s as integer)"
 			cur.execute(SQL, (request.form['unload'], in_transit_pk))
 
