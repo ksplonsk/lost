@@ -407,10 +407,10 @@ def approve_req():
 		# 	cur.execute(SQL, (session['username'], asset_tag))
 		# 	conn.commit()
 
-		# if request.form['reject'] != None:
-		# 	SQL = "DELETE FROM transfers WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
-		# 	cur.execute(SQL, (asset_tag,))
-		# 	conn.commit()
+		if request.form.get('reject'):
+			SQL = "DELETE FROM transfers WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
+			cur.execute(SQL, (asset_tag,))
+			conn.commit()
 		
 		return redirect(url_for('dashboard'))
 
