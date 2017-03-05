@@ -399,6 +399,9 @@ def approve_req():
 	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form):
 		asset_tag = request.form['asset_tag']
 
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
 		if request.form['approve'] != None:
 			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approver_dt=CURRENT_TIMESTAMP WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
 			cur.execute(SQL, (session['username'], asset_tag))
