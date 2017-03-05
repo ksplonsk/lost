@@ -1,5 +1,12 @@
 <html>
 	<body><h2>Update Transit</h2>Welcome to the update transit page.<br><br>
-
+		<form action="{{url_for('update_transit')}}" method="POST">
+			Load Date<br>
+			<input type="date" name="load" /><br><br>
+			Unload Date<br>
+			<input type="date" name="unload" /><br><br>
+			<br><br><br>
+			<input type="submit" name="submit" value="Set Date(s)" />
+		</form>
 	</body>
 </html>

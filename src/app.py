@@ -177,7 +177,7 @@ def add_asset():
 		cur = conn.cursor()
 
 		# build up list of all assets
-		SQL = "SELECT * FROM assets;"
+		SQL = "SELECT * FROM assets WHERE (disposed=false);"
 		cur.execute(SQL)
 		all_assets = cur.fetchall()
 
@@ -433,7 +433,34 @@ def approve_req():
 
 @app.route('/update_transit', methods=('GET', 'POST'))
 def update_transit():
-	return render_template('update_transit.html')
+	if session['role'] != 'Logistics Officer':
+		return render_template('req_approve_error.html', error_reason='only Facilities Officers can approve transfer requests.') #TODO: new error page
+
+	if request.method=='GET':
+		if not 'in_transit_pk' in request.args or not 'transit_tag' in request.args:
+			return render_template('req_approve_error.html', error_reason='you must access the approve request page through the dashboard.') #TODO: new error page
+
+		in_transit_pk = request.args['in_transit_pk']
+		transit_tag = request.args['transit_tag']
+		return render_template('update_transit.html', in_transit_pk=in_transit_pk, transit_tag=transit_tag)
+
+	if request.method=='POST':
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		if 'load' in request.form:
+			SQL = "UPDATE in_transit SET load_dt=%s"
+			cur.execute(SQL, (request.form['load'],))
+		
+		if 'unload' in request.form:
+			SQL = "UPDATE in_transit SET unload_dt=%s"
+			cur.execute(SQL, (request.form['unload'],))
+
+		conn.commit()
+
+		return redirect(url_for('dashboard'))
+
 
 @app.route('/logout', methods=('GET', 'POST'))
 def logout():
