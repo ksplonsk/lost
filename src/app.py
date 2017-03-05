@@ -94,7 +94,7 @@ def dashboard():
 	conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 	cur = conn.cursor()
 
-	SQL = "SELECT it.in_transit_pk, a.asset_tag, a.description FROM in_transit AS it INNER JOIN transfers AS t ON t.transfer_pk=it.transfer_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE (it.load_dt IS NULL OR it.unload_dt IS NULL)"
+	SQL = "SELECT it.in_transit_pk, a.asset_tag, a.description FROM in_transit AS it INNER JOIN transfers AS t ON t.transfer_pk=it.transfer_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE ((it.load_dt IS NULL OR it.unload_dt IS NULL) AND a.disposed=false)"
 	cur.execute(SQL)
 
 	transit_results = cur.fetchall()
@@ -110,7 +110,7 @@ def dashboard():
 
 	session['transits'] = transits
 
-	SQL = "SELECT t.transfer_pk, a.asset_tag, sf.common_name, df.common_name FROM transfers AS t INNER JOIN facilities AS sf ON sf.facility_pk=t.source_fk INNER JOIN facilities AS df ON df.facility_pk=t.destination_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE t.approver_fk IS NULL"
+	SQL = "SELECT t.transfer_pk, a.asset_tag, sf.common_name, df.common_name FROM transfers AS t INNER JOIN facilities AS sf ON sf.facility_pk=t.source_fk INNER JOIN facilities AS df ON df.facility_pk=t.destination_fk INNER JOIN assets AS a ON a.asset_pk=t.asset_fk WHERE (t.approver_fk IS NULL AND a.disposed=false)"
 	cur.execute(SQL)
 
 	approval_results = cur.fetchall()
