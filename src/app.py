@@ -378,7 +378,7 @@ def transfer_req():
 
 
 		# add transfer request into DB
-		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, CURRENT_TIME, %s, %s, %s);"
+		SQL = "INSERT INTO transfers (transfer_pk, requester_fk, request_dt, source_fk, destination_fk, asset_fk) VALUES (DEFAULT, %s, CURRENT_TIMESTAMP, %s, %s, %s);"
 		cur.execute(SQL, (requester_fk,source_facility,destination,asset_fk))
 		conn.commit()
 
@@ -400,7 +400,7 @@ def approve_req():
 		asset_tag = request.form['asset_tag']
 
 		if request.form['approve'] != None:
-			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approver_dt=CURRENT_TIME WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
+			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approver_dt=CURRENT_TIMESTAMP WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
 			cur.execute(SQL, (session['username'], asset_tag))
 			conn.commit()
 
