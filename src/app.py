@@ -444,18 +444,19 @@ def update_transit():
 		transit_tag = request.args['transit_tag']
 		return render_template('update_transit.html', in_transit_pk=in_transit_pk, transit_tag=transit_tag)
 
-	if request.method=='POST':
+	if request.method=='POST' and 'in_transit_pk' in request.form:
+		in_transit_pk = request.form['in_transit_pk']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
 		if 'load' in request.form:
-			SQL = "UPDATE in_transit SET load_dt=%s"
-			cur.execute(SQL, (request.form['load'],))
+			SQL = "UPDATE in_transit SET load_dt=%s WHERE in_transit_pk=CAST(%s as integer)"
+			cur.execute(SQL, (request.form['load'], in_transit_pk))
 		
 		if 'unload' in request.form:
-			SQL = "UPDATE in_transit SET unload_dt=%s"
-			cur.execute(SQL, (request.form['unload'],))
+			SQL = "UPDATE in_transit SET unload_dt=%s WHERE in_transit_pk=CAST(%s as integer)"
+			cur.execute(SQL, (request.form['unload'], in_transit_pk))
 
 		conn.commit()
 
