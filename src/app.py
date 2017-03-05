@@ -405,6 +405,9 @@ def approve_req():
 		if request.form.get('approve'):
 			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approved_dt=CURRENT_TIMESTAMP WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
 			cur.execute(SQL, (session['username'], asset_tag))
+
+			SQL = "INSERT INTO in_transit (transfer_fk, load_dt, unload_dt) VALUES ((SELECT transfer_pk FROM transfers WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))), NULL, NULL)"
+			cur.execute(SQL, (asset_tag,))
 			conn.commit()
 
 		if request.form.get('reject'):
