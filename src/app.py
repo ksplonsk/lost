@@ -386,26 +386,30 @@ def approve_req():
 		return redirect(url_for('req_approve_error'))
 
 	if request.method=='GET':
-		session['approval_tag'] = 'curtis' # TODO: take out hack
-		return render_template('approve_req.html')
+		if not request.args.get('transfer_pk') or not request.args.get('approval_tag'):
+			return # TODO: make an error
 
-	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form):
-		asset_tag = request.form['asset_tag']
+		transfer_pk = request.args['transfer_pk']
+		approval_tag = request.args['approval_tag']
+		return render_template('approve_req.html', transfer_pk=transfer_pk, approval_tag=approval_tag)
+
+	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form) and transfer_pk in request.form:
+		transfer_pk = request.form['transfer_pk']
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
 
 		if request.form.get('approve'):
-			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approved_dt=CURRENT_TIMESTAMP WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
-			cur.execute(SQL, (session['username'], asset_tag))
+			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approved_dt=CURRENT_TIMESTAMP WHERE (transfer_pk=%s))"
+			cur.execute(SQL, (session['username'], transfer_pk))
 
-			SQL = "INSERT INTO in_transit (transfer_fk, load_dt, unload_dt) VALUES ((SELECT transfer_pk FROM transfers WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))), NULL, NULL)"
-			cur.execute(SQL, (asset_tag,))
+			SQL = "INSERT INTO in_transit (transfer_fk, load_dt, unload_dt) VALUES (%s, NULL, NULL)"
+			cur.execute(SQL, (transfer_pk,))
 			conn.commit()
 
 		if request.form.get('reject'):
-			SQL = "DELETE FROM transfers WHERE (asset_fk=(SELECT asset_pk FROM assets WHERE asset_tag=%s))"
-			cur.execute(SQL, (asset_tag,))
+			SQL = "DELETE FROM transfers WHERE (transfer_pk=%s)"
+			cur.execute(SQL, (transfer_pk,))
 			conn.commit()
 		
 		return redirect(url_for('dashboard'))
