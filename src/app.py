@@ -400,7 +400,7 @@ def approve_req():
 		cur = conn.cursor()
 
 		if request.form.get('approve'):
-			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approved_dt=CURRENT_TIMESTAMP WHERE (transfer_pk=%s))"
+			SQL = "UPDATE transfers SET approver_fk=(SELECT user_pk FROM users WHERE username=%s), approved_dt=CURRENT_TIMESTAMP WHERE (transfer_pk=(%s as integer))"
 			cur.execute(SQL, (session['username'], transfer_pk))
 
 			SQL = "INSERT INTO in_transit (transfer_fk, load_dt, unload_dt) VALUES (%s, NULL, NULL)"
@@ -408,7 +408,7 @@ def approve_req():
 			conn.commit()
 
 		if request.form.get('reject'):
-			SQL = "DELETE FROM transfers WHERE (transfer_pk=%s)"
+			SQL = "DELETE FROM transfers WHERE (transfer_pk=(%s as integer))"
 			cur.execute(SQL, (transfer_pk,))
 			conn.commit()
 		
