@@ -390,10 +390,10 @@ def transfer_req():
 def approve_req():
 
 	if session['role'] != 'Facilities Officer':
-		session['approval_tag'] = 'larry'
 		return redirect(url_for('req_approve_error'))
 
 	if request.method=='GET':
+		session['approval_tag'] = 'larry'
 		return render_template('approve_req.html')
 
 	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form):
