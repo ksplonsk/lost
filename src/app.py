@@ -393,7 +393,7 @@ def approve_req():
 		return redirect(url_for('req_approve_error'))
 
 	if request.method=='GET':
-		session['approval_tag'] = 'larry'
+		session['approval_tag'] = 'curtis' # TODO: take out hack
 		return render_template('approve_req.html')
 
 	if request.method=='POST' and ('approve' in request.form or 'reject' in request.form):
