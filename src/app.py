@@ -434,11 +434,11 @@ def approve_req():
 @app.route('/update_transit', methods=('GET', 'POST'))
 def update_transit():
 	if session['role'] != 'Logistics Officer':
-		return render_template('req_approve_error.html', error_reason='only Facilities Officers can approve transfer requests.') #TODO: new error page
+		return render_template('transit_error.html', error_reason='only Logistics Officers can set load and unload times.')
 
 	if request.method=='GET':
 		if not 'in_transit_pk' in request.args or not 'transit_tag' in request.args:
-			return render_template('req_approve_error.html', error_reason='you must access the approve request page through the dashboard.') #TODO: new error page
+			return render_template('transit_error.html', error_reason='you must access the update transit page through the dashboard.')
 
 		in_transit_pk = request.args['in_transit_pk']
 		transit_tag = request.args['transit_tag']
@@ -449,6 +449,13 @@ def update_transit():
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
+
+		SQL = "SELECT unload_dt FROM in_transit WHERE in_transit_pk=CAST(%s as integer)"
+		cur.execute(SQL, (in_transit_pk,))
+		transit_record = cur.fetchone()
+
+		if transit_record[0] != None:
+			return render_template('transit_error.html', error_reason='there is already an unload time set.')
 
 		if 'load' in request.form and request.form['load'] != '':
 			SQL = "UPDATE in_transit SET load_dt=%s WHERE in_transit_pk=CAST(%s as integer)"
