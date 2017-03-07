@@ -342,6 +342,11 @@ def transfer_report():
 
 @app.route('/transfer_req', methods=('GET', 'POST'))
 def transfer_req():
+
+	# check to see if logged in user is a Logistics Officer (only Logistics Officers can initiate tranfer requests)
+	if session['role'] != 'Logistics Officer':
+		return render_template('req_approve_error.html', error_reason='only Logistics Officers can initiate transfer requests.')
+
 	if request.method=='GET':
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
