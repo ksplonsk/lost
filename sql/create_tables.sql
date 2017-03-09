@@ -11,6 +11,7 @@ user_pk serial primary key, -- chose to use a numeric pk, I am more comfortable 
 role_fk integer REFERENCES roles(role_pk) not null, -- connects roles to users
 username varchar(16), -- length of 16 characters specified in project specs
 password varchar(16) -- length of 16 characters specified in project specs
+active boolean default false -- flag to check if user is active or not
 );
 
 CREATE TABLE facilities (
