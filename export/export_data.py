@@ -43,7 +43,7 @@ with open('transfers.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['asset_tag', 'request_by', 'request_dt', 'approve_by', 'approve_dt', 'source', 'destination', 'load_dt', 'unload_dt'])
     
-	SQL = "SELECT a.asset_tag, u1.username, t.request_dt, u2.username, t.approve_dt, f1.fcode, f2.fcode, it.load_dt, it.unload_dt FROM transfers AS t INNER JOIN users AS u1 ON t.requester_fk=u1.user_pk INNER JOIN users AS u2 ON t.approver_fk=u2.user_pk INNER JOIN assets AS a ON t.asset_fk=a.asset_pk INNER JOIN facilities AS f1 ON t.source_fk=f1.facility_pk INNER JOIN facilities AS f2 ON t.destination_fk=f2.facility_pk INNER JOIN in_transit AS it ON it.transfer_fk=t.transfer_pk"
+	SQL = "SELECT a.asset_tag, u1.username, t.request_dt, u2.username, t.approved_dt, f1.fcode, f2.fcode, it.load_dt, it.unload_dt FROM transfers AS t INNER JOIN users AS u1 ON t.requester_fk=u1.user_pk INNER JOIN users AS u2 ON t.approver_fk=u2.user_pk INNER JOIN assets AS a ON t.asset_fk=a.asset_pk INNER JOIN facilities AS f1 ON t.source_fk=f1.facility_pk INNER JOIN facilities AS f2 ON t.destination_fk=f2.facility_pk INNER JOIN in_transit AS it ON it.transfer_fk=t.transfer_pk"
 	cur.execute(SQL)
 	transfer_results = cur.fetchall()
 
