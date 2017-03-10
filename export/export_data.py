@@ -35,9 +35,11 @@ with open('assets.csv', 'w') as csvfile:
 	cur.execute(SQL)
 	asset_results = cur.fetchall()
 
-	# TODO: check if result[4] == None and if so put in string 'null'
 	for result in asset_results:
-		writer.writerow([result[0], result[1], result[2], result[3], result[4]])
+		if result[4] == None:
+			writer.writerow([result[0], result[1], result[2], result[3], 'NULL'])
+		else:
+			writer.writerow([result[0], result[1], result[2], result[3], result[4]])
 
 with open('transfers.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
