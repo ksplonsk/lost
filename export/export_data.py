@@ -56,5 +56,5 @@ with open('transfers.csv', 'w') as csvfile:
 			r7 = 'NULL'
 		if result[8] == None:
 			r8 = 'NULL'
-		writer.writerow([result[0], result[1], result[2], result[3], result[4], result[5], result[6], r7, r8)
+		writer.writerow([result[0], result[1], result[2], result[3], result[4], result[5], result[6], r7, r8])
 
