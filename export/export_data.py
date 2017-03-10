@@ -31,7 +31,7 @@ with open('assets.csv', 'w') as csvfile:
     writer = csv.writer(csvfile, quotechar="'")
     writer.writerow(['asset_tag', 'description', 'facility', 'acquired', 'disposed'])
     
-    SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN facilities AS f ON f.facility_pk=a.facility_fk"
+    SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_fk=at.asset_pk INNER JOIN facilities AS f ON f.facility_pk=a.facility_fk"
     cur.execute(SQL)
     facilities_results = cur.fetchall()
 
