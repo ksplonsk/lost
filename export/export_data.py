@@ -36,10 +36,11 @@ with open('assets.csv', 'w') as csvfile:
 	asset_results = cur.fetchall()
 
 	for result in asset_results:
+		r4 = result[4]
 		if result[4] == None:
-			writer.writerow([result[0], result[1], result[2], result[3], 'NULL'])
-		else:
-			writer.writerow([result[0], result[1], result[2], result[3], result[4]])
+			r4 = 'NULL'
+
+		writer.writerow([result[0], result[1], result[2], result[3], r4])
 
 with open('transfers.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
@@ -56,5 +57,6 @@ with open('transfers.csv', 'w') as csvfile:
 			r7 = 'NULL'
 		if result[8] == None:
 			r8 = 'NULL'
+
 		writer.writerow([result[0], result[1], result[2], result[3], result[4], result[5], result[6], r7, r8])
 
