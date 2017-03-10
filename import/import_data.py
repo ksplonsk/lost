@@ -19,6 +19,10 @@ with open(sys.argv[2]+'facilities.csv') as csvfile:
 
 with open(sys.argv[2]+'assets.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
+	disposed = 't'
 	for row in rows:
-		cur.execute("INSERT INTO assets (asset_tag, description, disposed) VALUES (%s, %s, %s)", (row['asset_tag'], row['description'], row['disposed']))
+		if row['disposed'] == 'NULL':
+			disposed = 'f'
+		cur.execute("INSERT INTO assets (asset_tag, description, disposed) VALUES (%s, %s, %s)", (row['asset_tag'], row['description'], disposed)
+		cur.execute("INSERT INTO asset_at (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['aquired'], row['disposed'])
 	conn.commit()
