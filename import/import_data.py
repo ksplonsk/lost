@@ -4,6 +4,7 @@ import psycopg2
 
 conn = psycopg2.connect(dbname=sys.argv[1], host='127.0.0.1', port=5432)
 cur = conn.cursor()
+#TODO: make sure argv[2] has a / on the end
 
 with open(sys.argv[2]+'users.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
