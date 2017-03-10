@@ -6,7 +6,7 @@ conn = psycopg2.connect(dbname=sys.argv[1], host='127.0.0.1',port=5432)
 cur = conn.cursor()
 
 with open('users.csv', 'w') as csvfile:
-    writer = csv.writer(csvfile)
+    writer = csv.writer(csvfile, quotechar="'")
     writer.writerow(['username','password', 'role', 'active'])
     
     SQL = "SELECT u.username, u.password, r.title, u.active FROM users AS u INNER JOIN roles AS r ON r.role_pk=u.role_fk"
