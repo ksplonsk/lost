@@ -26,7 +26,7 @@ with open(sys.argv[2]+'assets.csv') as csvfile:
 	for row in rows:
 		if row['disposed'] == 'NULL':
 			disposed = 'f'
-		cur.execute("INSERT INTO assets (asset_tag, description, disposed) VALUES (%s, %s, %s)", (row['asset_tag'], row['description'], disposed))
+		cur.execute("INSERT INTO assets (asset_tag, description, disposed) VALUES (%s, %s, %s)", (row['asset_tag'], row['description'], 'null'))
 		cur.execute("INSERT INTO asset_at (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['acquired'], row['disposed']))
 	conn.commit()
 
