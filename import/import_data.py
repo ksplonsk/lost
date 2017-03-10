@@ -8,6 +8,5 @@ cur = conn.cursor()
 with open(sys.argv[2]+'facilities.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 	for row in rows:
-		print('got here!')
-		print(row)
 		cur.execute("INSERT INTO facilities (fcode, common_name) VALUES (%s, %s)", (row['fcode'], row['common_name']))
+	conn.commit()
