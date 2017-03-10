@@ -56,19 +56,20 @@ with open(sys.argv[2]+'transfers.csv') as csvfile:
 			%s
 			) """
 		cur.execute(SQL, (row['request_by'], row['request_dt'], row['source'], row['destination'], row['asset_tag'], row['approve_by'], approve_dt))
+		
 		cur.execute("SELECT transfer_pk FROM transfers")
 		tranfers = cur.fetchall()
 		transfer_fk = transfers[-1][0]
 
 		load_dt = row['load_dt']
-		if load_dt == '':
+		if load_dt == 'NULL':
 			load_dt = None
 
 		unload_dt = row['unload_dt']
-		if unload_dt == '':
+		if unload_dt == 'NULL':
 			unload_dt = None
-			
-		cur.execute("INSERT INTO in_transit (transfer_fk, load_dt, unload_dt) VALUES (%s, %s, %s)", (transfer_fk, row['load_dt'], row['unload_dt']))
+
+		cur.execute("INSERT INTO in_transit (transfer_fk, load_dt, unload_dt) VALUES (%s, %s, %s)", (transfer_fk, load_dt, unload_dt))
 	conn.commit()
 
 
