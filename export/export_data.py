@@ -50,9 +50,11 @@ with open('transfers.csv', 'w') as csvfile:
 	transfer_results = cur.fetchall()
 
 	for result in transfer_results:
+		r7 = result[7]
+		r8 = result[8]
 		if result[7] == None:
-			result[7] = 'NULL'
+			r7 = 'NULL'
 		if result[8] == None:
-			result[8] = 'NULL'
-		writer.writerow([result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7], result[8]])
+			r8 = 'NULL'
+		writer.writerow([result[0], result[1], result[2], result[3], result[4], result[5], result[6], r7, r8)
 
