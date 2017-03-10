@@ -41,8 +41,21 @@ with open(sys.argv[2]+'transfers.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
 	for row in rows:
-		SQL = """ """
-		cur.execute("INSERT INTO transfers (request_dt, approved_dt) VALUES (%s, %s)", (row['request_dt'], row['approve_dt']))
+
+		approve_dt = row['approve_dt']
+		if approve_dt == '':
+			approve_dt = None
+
+		SQL = """INSERT INTO transfers (requester_fk, request_dt, source_fk, destination_fk, asset_fk, approver_fk, approved_dt) VALUES (
+			(SELECT user_pk FROM users WHERE username=%s),
+			%s,
+			(SELECT facility_pk FROM facilities WHERE fcode=%s),
+			(SELECT facility_pk FROM facilities WHERE fcode=%s),
+			(SELECT asset_pk FROM assets WHERE asset_tag=%s),
+			(SELECT user_pk FROM users WHERE username=%s),
+			%s
+			) """
+		cur.execute(SQL, (row['request_by'], row['request_dt'], row['source'], row['destination'], row['asset_tag'], row['approve_by'], row['approve_dt'] ))
 		#cur.execute("INSERT INTO in_transit (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['aquired'], row['disposed']))
 	conn.commit()
 
