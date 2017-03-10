@@ -5,6 +5,12 @@ import psycopg2
 conn = psycopg2.connect(dbname=sys.argv[1], host='127.0.0.1', port=5432)
 cur = conn.cursor()
 
+with open(sys.argv[2]+'users.csv') as csvfile:
+	rows = csv.DictReader(csvfile)
+	for row in rows:
+		cur.execute("INSERT INTO users (role_fk, username, password, active) VALUES (%s, %s, %s, %s)", (row['role_fk'], row['username'], row['password'], row['active']))
+	conn.commit()
+
 with open(sys.argv[2]+'facilities.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 	for row in rows:
