@@ -27,10 +27,7 @@ with open(sys.argv[2]+'assets.csv') as csvfile:
 		if row['disposed'] == 'NULL':
 			disposed = 'f'
 		cur.execute("INSERT INTO assets (asset_tag, description, disposed) VALUES (%s, %s, %s)", (row['asset_tag'], row['description'], disposed))
-		if row['disposed'] != 'NULL':
-			cur.execute("INSERT INTO asset_at (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['acquired'], row['disposed']))
-		else:
-			cur.execute("INSERT INTO asset_at (facility_fk, arrival) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s)", (row['facility'], row['acquired']))
+		cur.execute("INSERT INTO asset_at (asset_fk, facility_fk, arrival, departure) VALUES ((SELECT asset_pk FROM assets WHERE asset_tag=%s), (SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['acquired'], row['disposed']))
 	conn.commit()
 
 # with open(sys.argv[2]+'transfers.csv') as csvfile:
