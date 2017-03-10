@@ -58,7 +58,7 @@ with open(sys.argv[2]+'transfers.csv') as csvfile:
 		cur.execute(SQL, (row['request_by'], row['request_dt'], row['source'], row['destination'], row['asset_tag'], row['approve_by'], approve_dt))
 		
 		cur.execute("SELECT transfer_pk FROM transfers")
-		tranfers = cur.fetchall()
+		transfers = cur.fetchall()
 		transfer_fk = transfers[-1][0]
 
 		load_dt = row['load_dt']
