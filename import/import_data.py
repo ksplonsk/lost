@@ -37,16 +37,14 @@ with open(sys.argv[2]+'assets.csv') as csvfile:
 	
 	conn.commit()
 
-# with open(sys.argv[2]+'transfers.csv') as csvfile:
-# 	rows = csv.DictReader(csvfile)
+with open(sys.argv[2]+'transfers.csv') as csvfile:
+	rows = csv.DictReader(csvfile)
 
-# 	for row in rows:
-# 		cur.execute("INSERT INTO transfers (request_dt, approved_dt) VALUES (%s, %s)", (row['request_dt'], row['approve_dt']))
-# 		cur.execute("INSERT INTO users (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['request_by'], row['approve_by'], row['disposed']))
-# 		cur.execute("INSERT INTO assets (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['aquired'], row['disposed']))
-# 		cur.execute("INSERT INTO facilities (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['aquired'], row['disposed']))
-# 		cur.execute("INSERT INTO in_transit (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['aquired'], row['disposed']))
-# 	conn.commit()
+	for row in rows:
+		SQL = """ """
+		cur.execute("INSERT INTO transfers (request_dt, approved_dt) VALUES (%s, %s)", (row['request_dt'], row['approve_dt']))
+		#cur.execute("INSERT INTO in_transit (facility_fk, arrival, departure) VALUES ((SELECT facility_pk FROM facilities WHERE fcode=%s), %s, %s)", (row['facility'], row['aquired'], row['disposed']))
+	conn.commit()
 
 
 
