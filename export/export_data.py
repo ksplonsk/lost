@@ -2,12 +2,12 @@ import csv
 import sys
 import psycopg2
 
-conn = psycopg2.connect(dbname=sys.argv[1], host='127.0.0.1',port=5432)
+conn = psycopg2.connect(dbname=sys.argv[1], host='127.0.0.1', port=5432)
 cur = conn.cursor()
 
 with open('users.csv', 'w') as csvfile:
     writer = csv.writer(csvfile, quotechar="'")
-    writer.writerow(['username','password', 'role', 'active'])
+    writer.writerow(['username', 'password', 'role', 'active'])
     
     SQL = "SELECT u.username, u.password, r.title, u.active FROM users AS u INNER JOIN roles AS r ON r.role_pk=u.role_fk"
     cur.execute(SQL)
@@ -18,7 +18,7 @@ with open('users.csv', 'w') as csvfile:
 
 with open('facilities.csv', 'w') as csvfile:
     writer = csv.writer(csvfile, quotechar="'")
-    writer.writerow(['fcode','common_name'])
+    writer.writerow(['fcode', 'common_name'])
     
     SQL = "SELECT fcode, common_name FROM facilities"
     cur.execute(SQL)
@@ -29,9 +29,9 @@ with open('facilities.csv', 'w') as csvfile:
 
 with open('assets.csv', 'w') as csvfile:
     writer = csv.writer(csvfile, quotechar="'")
-    writer.writerow(['asset_tag','description','facility','acquired','disposed'])
+    writer.writerow(['asset_tag', 'description', 'facility', 'acquired', 'disposed'])
     
-    SQL = "SELECT a.asset_tag, a.description, at.facility FROM facilities"
+    SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN facilities AS f ON f.facility_pk=a.facility_fk"
     cur.execute(SQL)
     facilities_results = cur.fetchall()
 
