@@ -31,10 +31,10 @@ with open('assets.csv', 'w') as csvfile:
     writer = csv.writer(csvfile, quotechar="'")
     writer.writerow(['asset_tag', 'description', 'facility', 'acquired', 'disposed'])
     
-    SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_fk=at.asset_pk INNER JOIN facilities AS f ON f.facility_pk=a.facility_fk"
+    SQL = "SELECT a.asset_tag, a.description, f.common_name, at.arrival, at.departure FROM assets AS a INNER JOIN asset_at AS at ON a.asset_pk=at.asset_fk INNER JOIN facilities AS f ON f.facility_pk=at.facility_fk"
     cur.execute(SQL)
-    facilities_results = cur.fetchall()
+    asset_results = cur.fetchall()
 
-    for result in facilities_results:
-    	writer.writerow([result[0], result[1]])
+    for result in asset_results:
+    	writer.writerow([result[0], result[1], result[2], result[3], result[4]])
 
