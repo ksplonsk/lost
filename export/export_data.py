@@ -15,3 +15,26 @@ with open('users.csv', 'w') as csvfile:
 
     for result in user_results:
     	writer.writerow([result[0], result[1], result[2], result[3]])
+
+with open('facilities.csv', 'w') as csvfile:
+    writer = csv.writer(csvfile, quotechar="'")
+    writer.writerow(['fcode','common_name'])
+    
+    SQL = "SELECT fcode, common_name FROM facilities"
+    cur.execute(SQL)
+    facilities_results = cur.fetchall()
+
+    for result in facilities_results:
+    	writer.writerow([result[0], result[1]])
+
+with open('assets.csv', 'w') as csvfile:
+    writer = csv.writer(csvfile, quotechar="'")
+    writer.writerow(['asset_tag','description','facility','acquired','disposed'])
+    
+    SQL = "SELECT a.asset_tag, a.description, at.facility FROM facilities"
+    cur.execute(SQL)
+    facilities_results = cur.fetchall()
+
+    for result in facilities_results:
+    	writer.writerow([result[0], result[1]])
+
