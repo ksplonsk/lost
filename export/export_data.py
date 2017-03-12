@@ -4,9 +4,13 @@ import psycopg2
 
 conn = psycopg2.connect(dbname=sys.argv[1], host='127.0.0.1', port=5432)
 cur = conn.cursor()
-#TODO: make sure argv[2] has a / on the end
 
-with open(sys.argv[2]+'users.csv', 'w') as csvfile:
+# make sure argv[2] has a / on the end
+dir = sys.argv[2]
+if dir != '' and not dir.endswith('/'):
+    dir = dir + '/'
+
+with open(dir+'users.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['username', 'password', 'role', 'active'])
     
@@ -17,7 +21,7 @@ with open(sys.argv[2]+'users.csv', 'w') as csvfile:
 	for result in user_results:
 		writer.writerow([result[0], result[1], result[2], result[3]])
 
-with open(sys.argv[2]+'facilities.csv', 'w') as csvfile:
+with open(dir+'facilities.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['fcode', 'common_name'])
     
@@ -28,7 +32,7 @@ with open(sys.argv[2]+'facilities.csv', 'w') as csvfile:
 	for result in facilities_results:
 		writer.writerow([result[0], result[1]])
 
-with open(sys.argv[2]+'assets.csv', 'w') as csvfile:
+with open(dir+'assets.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['asset_tag', 'description', 'facility', 'acquired', 'disposed'])
     
@@ -43,7 +47,7 @@ with open(sys.argv[2]+'assets.csv', 'w') as csvfile:
 
 		writer.writerow([result[0], result[1], result[2], result[3], r4])
 
-with open(sys.argv[2]+'transfers.csv', 'w') as csvfile:
+with open(dir+'transfers.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['asset_tag', 'request_by', 'request_dt', 'approve_by', 'approve_dt', 'source', 'destination', 'load_dt', 'unload_dt'])
     

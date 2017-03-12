@@ -4,9 +4,13 @@ import psycopg2
 
 conn = psycopg2.connect(dbname=sys.argv[1], host='127.0.0.1', port=5432)
 cur = conn.cursor()
-#TODO: make sure argv[2] has a / on the end
 
-with open(sys.argv[2]+'users.csv') as csvfile:
+# make sure argv[2] has a / on the end
+dir = sys.argv[2]
+if dir != '' and not dir.endswith('/'):
+    dir = dir + '/'
+
+with open(dir+'users.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
 	for row in rows:
@@ -14,7 +18,7 @@ with open(sys.argv[2]+'users.csv') as csvfile:
 	
 	conn.commit()
 
-with open(sys.argv[2]+'facilities.csv') as csvfile:
+with open(dir+'facilities.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
 	for row in rows:
@@ -22,7 +26,7 @@ with open(sys.argv[2]+'facilities.csv') as csvfile:
 	
 	conn.commit()
 
-with open(sys.argv[2]+'assets.csv') as csvfile:
+with open(dir+'assets.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
 	for row in rows:
@@ -38,7 +42,7 @@ with open(sys.argv[2]+'assets.csv') as csvfile:
 	
 	conn.commit()
 
-with open(sys.argv[2]+'transfers.csv') as csvfile:
+with open(dir+'transfers.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
 	for row in rows:
