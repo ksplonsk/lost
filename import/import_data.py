@@ -10,6 +10,7 @@ dir = sys.argv[2]
 if dir != '' and not dir.endswith('/'):
     dir = dir + '/'
 
+# import users
 with open(dir+'users.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
@@ -18,6 +19,7 @@ with open(dir+'users.csv') as csvfile:
 	
 	conn.commit()
 
+# import facilities
 with open(dir+'facilities.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
@@ -26,6 +28,7 @@ with open(dir+'facilities.csv') as csvfile:
 	
 	conn.commit()
 
+# import assets
 with open(dir+'assets.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 
@@ -42,6 +45,7 @@ with open(dir+'assets.csv') as csvfile:
 	
 	conn.commit()
 
+# import transfers
 with open(dir+'transfers.csv') as csvfile:
 	rows = csv.DictReader(csvfile)
 

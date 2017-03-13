@@ -10,6 +10,7 @@ dir = sys.argv[2]
 if dir != '' and not dir.endswith('/'):
     dir = dir + '/'
 
+# export users
 with open(dir+'users.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['username', 'password', 'role', 'active'])
@@ -21,6 +22,7 @@ with open(dir+'users.csv', 'w') as csvfile:
 	for result in user_results:
 		writer.writerow([result[0], result[1], result[2], result[3]])
 
+# export facilities
 with open(dir+'facilities.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['fcode', 'common_name'])
@@ -32,6 +34,7 @@ with open(dir+'facilities.csv', 'w') as csvfile:
 	for result in facilities_results:
 		writer.writerow([result[0], result[1]])
 
+# export assets
 with open(dir+'assets.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['asset_tag', 'description', 'facility', 'acquired', 'disposed'])
@@ -47,6 +50,7 @@ with open(dir+'assets.csv', 'w') as csvfile:
 
 		writer.writerow([result[0], result[1], result[2], result[3], r4])
 
+# expirt transfers
 with open(dir+'transfers.csv', 'w') as csvfile:
 	writer = csv.writer(csvfile, quotechar="'")
 	writer.writerow(['asset_tag', 'request_by', 'request_dt', 'approve_by', 'approve_dt', 'source', 'destination', 'load_dt', 'unload_dt'])
