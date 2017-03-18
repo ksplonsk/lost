@@ -35,7 +35,7 @@ def login():
 			return render_template('unmatched.html', username=username)
 
 		# check active status
-		if not user[2]:
+		if user[2] == False:
 			return render_template('unmatched.html', username=username)
 
 		# if username and password don't exist, go back to unmatched page
