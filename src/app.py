@@ -506,3 +506,59 @@ def transfer_req_success():
 	return render_template('transfer_req_success.html')
 
 
+@app.route('/rest/add_user', methods=('POST',))
+def add_user():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+		# TODO: check that all parameters are present
+		if 'username' not in req or 'password' not in req or 'role' not in req:
+			dat = dict()
+			dat['result'] = 'error: missing parameters'
+			data = json.dumps(dat)
+			return data
+
+		username = req['username']
+		password = req['password']
+		role = req['role']
+
+		# TODO: check that role is valid
+
+		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+		cur = conn.cursor()
+
+		SQL = "SELECT * FROM users WHERE username=%s;"
+		cur.execute(SQL, (username,))
+		user = cur.fetchone()
+
+		# check to see if username is in the database
+		if user != None:
+			# TODO: update password and make user active
+			return render_template('user_already_exists.html', username=username)
+		else:
+			# if username doesn't exist, add username and password to the database
+			SQL = "INSERT INTO users (user_pk, username, password, role_fk) VALUES (DEFAULT, %s, %s, (SELECT role_pk FROM roles WHERE (title = %s)));"
+			cur.execute(SQL, (username,password,role))
+			conn.commit()
+
+		# parse data out, return timestamp, and result
+		dat = dict()
+		dat['result'] = 'OK'
+		data = json.dumps(dat)
+		return data
+
+@app.route('/rest/activate_user', methods=('POST',))
+def activate_user():
+	# Try to handle as plaintext
+	if request.method=='POST' and 'arguments' in request.form:
+		req=json.loads(request.form['arguments'])
+
+	# parse data out, return timestamp, and result
+	dat = dict()
+	dat['timestamp'] = req['timestamp']
+	dat['result'] = 'OK'
+	data = json.dumps(dat)
+	return data
+
+
