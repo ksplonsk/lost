@@ -8,7 +8,7 @@ try:
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
         },
         data={
-            "arguments": "{\"username\":{}}".format(sys.argv[2]),
+            "arguments": "{" + "\"username\":{}".format(sys.argv[2]) + "}",
         },
     )
     print('Response HTTP Status Code: {status_code}'.format(status_code=response.status_code))
