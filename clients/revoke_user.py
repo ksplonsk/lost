@@ -1,4 +1,5 @@
 import requests
+import sys
 
 try:
     response = requests.post(
@@ -7,7 +8,7 @@ try:
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
         },
         data={
-            "arguments": "{\"username\":\"simon\"}",
+            "arguments": "{'username':'river'}",
         },
     )
     print('Response HTTP Status Code: {status_code}'.format(status_code=response.status_code))
