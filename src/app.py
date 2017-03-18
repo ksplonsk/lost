@@ -51,7 +51,7 @@ def login():
 		else:
 			return render_template('unmatched.html', username=username)
 
-# @app.route('/create_user', methods=('GET', 'POST'))
+@app.route('/create_user', methods=('GET', 'POST'))
 def create_user():
 	if request.method=='GET':
 		#<option value="Logistics Officer">Logistics Officer</option>
