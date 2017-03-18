@@ -508,11 +508,11 @@ def transfer_req_success():
 
 @app.route('/rest/add_user', methods=('POST',))
 def add_user():
-	# Try to handle as plaintext
+	
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
-		# TODO: check that all parameters are present
+		# check that all parameters are present
 		if 'username' not in req or 'password' not in req or 'role' not in req:
 			dat = dict()
 			dat['result'] = 'error: missing parameters'
@@ -534,31 +534,64 @@ def add_user():
 
 		# check to see if username is in the database
 		if user != None:
-			# TODO: update password and make user active
-			return render_template('user_already_exists.html', username=username)
+			# update password and make user active
+			SQL = "UPDATE users SET password=%s, active=True WHERE username=%s"
+			cur.execute(SQL, (password,username))
 		else:
 			# if username doesn't exist, add username and password to the database
 			SQL = "INSERT INTO users (user_pk, username, password, role_fk) VALUES (DEFAULT, %s, %s, (SELECT role_pk FROM roles WHERE (title = %s)));"
 			cur.execute(SQL, (username,password,role))
-			conn.commit()
 
-		# parse data out, return timestamp, and result
+		conn.commit()
+
+		# return result
 		dat = dict()
 		dat['result'] = 'OK'
 		data = json.dumps(dat)
 		return data
 
-@app.route('/rest/activate_user', methods=('POST',))
-def activate_user():
-	# Try to handle as plaintext
+@app.route('/rest/revoke_user', methods=('POST',))
+def revoke_user():
+	
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
 
-	# parse data out, return timestamp, and result
-	dat = dict()
-	dat['timestamp'] = req['timestamp']
-	dat['result'] = 'OK'
-	data = json.dumps(dat)
-	return data
+	# check that all parameters are present
+	if 'username' not in req:
+		dat = dict()
+		dat['result'] = 'error: missing parameters'
+		data = json.dumps(dat)
+		return data
+
+	username = req['username']
+
+	conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+	cur = conn.cursor()
+
+	SQL = "SELECT * FROM users WHERE username=%s;"
+	cur.execute(SQL, (username,))
+	user = cur.fetchone()
+
+	# check to see if username is in the database
+	if user != None:
+		# make user in-active
+		SQL = "UPDATE users SET active=False WHERE username=%s"
+		cur.execute(SQL, (username,))
+		conn.commit()
+
+		# return result
+		dat = dict()
+		dat['result'] = 'OK'
+		data = json.dumps(dat)
+		return data
+
+	else:
+		# return result
+		dat = dict()
+		dat['result'] = 'error: user not found'
+		data = json.dumps(dat)
+		return data
+
+
 
 
