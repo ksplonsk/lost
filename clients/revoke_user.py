@@ -7,7 +7,7 @@ try:
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
         },
         data={
-            "arguments": "{\"username\":\"malcom\"}",
+            "arguments": "{\"username\":\"simon\"}",
         },
     )
     print('Response HTTP Status Code: {status_code}'.format(status_code=response.status_code))
