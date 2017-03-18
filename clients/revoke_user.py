@@ -3,12 +3,12 @@ import sys
 
 try:
     response = requests.post(
-        url="http://127.0.0.1:8080/rest/revoke_user",
+        url="{}rest/revoke_user".format(sys.argv[1]),
         headers={
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
         },
         data={
-            "arguments": "{'username':'river'}",
+            "arguments": "{\"username\":{}}".format(sys.argv[2]),
         },
     )
     print('Response HTTP Status Code: {status_code}'.format(status_code=response.status_code))
