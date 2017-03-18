@@ -3,12 +3,12 @@ import requests
 
 try:
     response = requests.post(
-        url="http://127.0.0.1:8080/rest/add_user",
+        url="http://127.0.0.1:8080/rest/activate_user",
         headers={
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
         },
         data={
-            "arguments": "{\"username\":\"ksplonsk\",\"password\":\"chester\",\"role\":\"Logistics Officer\"}",
+            "arguments": "{\"username\":\"larry\",\"password\":\"chester\",\"role\":\"logofc\"}",
         },
     )
     print('Response HTTP Status Code: {status_code}'.format(status_code=response.status_code))

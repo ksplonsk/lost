@@ -506,8 +506,8 @@ def transfer_req_success():
 	return render_template('transfer_req_success.html')
 
 
-@app.route('/rest/add_user', methods=('POST',))
-def add_user():
+@app.route('/rest/activate_user', methods=('POST',))
+def activate_user():
 	
 	if request.method=='POST' and 'arguments' in request.form:
 		req=json.loads(request.form['arguments'])
