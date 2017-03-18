@@ -51,46 +51,46 @@ def login():
 		else:
 			return render_template('unmatched.html', username=username)
 
-@app.route('/create_user', methods=('GET', 'POST'))
-def create_user():
-	if request.method=='GET':
-		#<option value="Logistics Officer">Logistics Officer</option>
-		#<option value="Facilities Officer">Facilities Officer</option>
+# @app.route('/create_user', methods=('GET', 'POST'))
+# def create_user():
+# 	if request.method=='GET':
+# 		#<option value="Logistics Officer">Logistics Officer</option>
+# 		#<option value="Facilities Officer">Facilities Officer</option>
 
-		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
-		cur = conn.cursor()
+# 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+# 		cur = conn.cursor()
 
-		SQL = "SELECT title FROM roles;"
-		cur.execute(SQL)
-		roles = cur.fetchall()
+# 		SQL = "SELECT title FROM roles;"
+# 		cur.execute(SQL)
+# 		roles = cur.fetchall()
 
-		role_options = []
-		for role in roles:
-			role_options.append(role[0])
-		return render_template('create_user.html', role_options=role_options)
+# 		role_options = []
+# 		for role in roles:
+# 			role_options.append(role[0])
+# 		return render_template('create_user.html', role_options=role_options)
 
-	if request.method=='POST' and 'username' in request.form and 'password' in request.form and 'role' in request.form:
-		username = request.form['username']
-		password = request.form['password']
-		selected_role = request.form['role']
+# 	if request.method=='POST' and 'username' in request.form and 'password' in request.form and 'role' in request.form:
+# 		username = request.form['username']
+# 		password = request.form['password']
+# 		selected_role = request.form['role']
 
-		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
-		cur = conn.cursor()
+# 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
+# 		cur = conn.cursor()
 
-		SQL = "SELECT * FROM users WHERE username=%s;"
-		cur.execute(SQL, (username,))
-		user = cur.fetchone()
+# 		SQL = "SELECT * FROM users WHERE username=%s;"
+# 		cur.execute(SQL, (username,))
+# 		user = cur.fetchone()
 
-		# check to see if username is in the database
-		if user != None:
-			return render_template('user_already_exists.html', username=username)
+# 		# check to see if username is in the database
+# 		if user != None:
+# 			return render_template('user_already_exists.html', username=username)
 
-		# if username doesn't exist, add username and password to the database
-		SQL = "INSERT INTO users (user_pk, username, password, role_fk) VALUES (DEFAULT, %s, %s, (SELECT role_pk FROM roles WHERE (title = %s)));"
-		cur.execute(SQL, (username,password,selected_role))
-		conn.commit()
+# 		# if username doesn't exist, add username and password to the database
+# 		SQL = "INSERT INTO users (user_pk, username, password, role_fk) VALUES (DEFAULT, %s, %s, (SELECT role_pk FROM roles WHERE (title = %s)));"
+# 		cur.execute(SQL, (username,password,selected_role))
+# 		conn.commit()
 
-		return render_template('user_created.html', username=username)
+# 		return render_template('user_created.html', username=username)
 
 
 @app.route('/dashboard', methods=('GET',))
