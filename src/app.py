@@ -523,7 +523,18 @@ def add_user():
 		password = req['password']
 		role = req['role']
 
-		# TODO: check that role is valid
+		# check that role is valid
+		if role != 'facofc' and role != 'logofc':
+			dat = dict()
+			dat['result'] = 'error: invalid role'
+			data = json.dumps(dat)
+			return data
+
+		if role == 'facofc':
+			role = 'Facilities Officer'
+
+		if role == 'logofc':
+			role = 'Logistics Officer'
 
 		conn = psycopg2.connect(dbname=dbname, host=dbhost,port=dbport)
 		cur = conn.cursor()
