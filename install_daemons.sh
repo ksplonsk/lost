@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone https://git.postgresql.org/git/postgresql.git
+git clone https://github.com/postgres/postgres.git -b REL9_5_STABLE
 cd postgresql
 ./configure --prefix=$1/postgresql
 make
