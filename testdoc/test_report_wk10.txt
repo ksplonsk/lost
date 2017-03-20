@@ -1,0 +1,66 @@
+Test 1 Create User
+1) Go to 127.0.0.1:8080/create_user
+2) Route to create_user should not exist.
+3) cd into clients folder and run the line: python3 activate_user.py
+http://127.0.0.1:8080/ sam boots facofc
+4) Run the line: python3 revoke_user.py http://127.0.0.1:8080/ sam
+
+PASSED
+
+Test 2 Login to the system
+1) After successfully creating a user, you should land on a page with a button that
+says Login, click that button.
+2) Login with each username created, ensuring both can successfully be logged in.
+3) Try to login with invalid credentials (ie the wrong username or password). You
+should be redirected to an error page telling you that your username and password
+don’t match.
+
+PASSED
+
+Test 3 Add two facilities
+1) After successfully logging in, you will be routed to the dashboard. Click the ‘Add
+Facility’ button.
+2) Enter a unique facility name, code and location.
+3) Repeat step 2.
+
+PASSED
+
+Test 4 Add two assets
+1) Navigate back to the dashboard page and click the ‘Add Asset’ button.
+2) Enter a unique asset tag, description and date.
+3) Repeat step 2.
+
+PASSED
+
+Test 5 Complete the asset transit process
+1) Make sure you are logged in as a Logistics Officer.
+2) From the dashboard, click the ‘Transfer Request’ button.
+3) Choose an asset to transfer and a destination to transfer it to. (Do this twice, so
+there are two transfer requests)
+4) Log out of your Logistics Officer login and login as a Facilities Officer.
+5) On the dashboard, click one of the asset transfer requests that is pending.
+6) Approve the request.
+7) Back on the dashboard, click on the other pending request.
+8) Reject the request.
+9) Log out of your Facilities Officer login and login as a Logistics Officer.
+10) On the dashboard, click on the asset that needs load and unload times set.
+11) Set the load and unload times for the asset.
+
+PASSED
+
+Test 6 Dispose of an asset
+1) Make sure you are still logged in as a Logistics Officer.
+2) From the dashboard, click the ‘Dispose Asset’ button.
+3) From the current asset list, choose an asset and enter it in the asset tag textbox,
+and a date.
+
+PASSED
+
+Test 7 Run each of the reports
+1) From the dashboard page, click on ‘Asset Report’.
+2) Choose an option from the drop down menu and date to view the report.
+3) Navigate back to the dashboard and click on ‘Transfer Report’.
+4) There should be a ‘Coming Soon :)’ message, as this report was never
+Implemented.
+
+PASSED
